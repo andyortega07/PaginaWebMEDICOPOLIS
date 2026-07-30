@@ -20,7 +20,6 @@
     <li><a href="comojugar.html" class="active">Cómo Jugar</a></li>
     <li><a href="categorias.html">Categorías</a></li>
     <li><a href="tablero.html">Tablero</a></li>
-    <li><a href="login.html" class="nav-btn-login">Iniciar Sesión</a></li>
   </ul>
   <button class="nav-hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
 </nav>
@@ -70,33 +69,45 @@
     <div class="step-item">
       <div class="step-num">04</div>
       <div class="step-body">
-        <h3>Tarjetas Especiales</h3>
-        <p><span class="tag-salud">Tarjeta Salud</span> = beneficio positivo. <span class="tag-riesgo">Tarjeta Riesgo</span> = penalidad. Sigue las instrucciones al pie de la letra.</p>
+        <h3>Tarjetas y Preguntas Especiales</h3>
+        <p><span class="tag-salud">Tarjeta Salud</span> = beneficio positivo. <span class="tag-riesgo">Tarjeta Riesgo</span> = penalidad. <span class="tag-pregunta">Pregunta ECNT</span> = respóndela: si aciertas ganas dinero, si fallas pagas. Sigue las instrucciones al pie de la letra.</p>
       </div>
     </div>
     <div class="step-item">
       <div class="step-num">05</div>
       <div class="step-body">
-        <h3>Construir Clínicas y Hospitales</h3>
-        <p>Si posees todas las propiedades de una categoría, puedes construir <strong>Clínicas 🏠</strong> (x4) y luego un <strong>Hospital 🏨</strong> para cobrar más renta.</p>
+        <h3>Construir: Consultorio → Clínica → Hospital</h3>
+        <p>Solo puedes construir en una categoría si posees <strong>todas</strong> sus propiedades. Se construye en orden y con dinero real, desde el botón <strong>🏗 Construir</strong> del panel lateral (o con 15% de descuento si caes en el <strong>Centro de Construcción</strong>):</p>
+        <table class="mini-build-table">
+          <tr><td>🏢 Consultorio</td><td>$150</td><td>Renta ×2</td><td>+2 🎓</td></tr>
+          <tr><td>🏥 Clínica</td><td>$400</td><td>Renta ×3</td><td>+5 🎓</td></tr>
+          <tr><td>🏨 Hospital</td><td>$900</td><td>Renta ×5</td><td>+12 🎓</td></tr>
+        </table>
       </div>
     </div>
     <div class="step-item">
       <div class="step-num">06</div>
       <div class="step-body">
-        <h3>UCI — Emergencia</h3>
-        <p>Si caes en la casilla <span class="tag-uci">UCI</span>, pierdes <strong>2 turnos</strong> o puedes pagar <strong>$150</strong> para salir inmediatamente.</p>
+        <h3>Estudiantes de Enfermería 🎓</h3>
+        <p>Cada construcción te da Estudiantes. No son solo un contador: son un recurso que puedes <strong>gastar</strong> durante la partida (ver detalle completo más abajo).</p>
       </div>
     </div>
     <div class="step-item">
       <div class="step-num">07</div>
+      <div class="step-body">
+        <h3>UCI — Emergencia</h3>
+        <p>Si caes en la casilla <span class="tag-uci">UCI</span>, pierdes <strong>2 turnos</strong> o puedes pagar <strong>$150</strong> para salir inmediatamente. Si tienes 5+ 🎓 Estudiantes, puedes usarlos para quedarte solo <strong>1 turno</strong>.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">08</div>
       <div class="step-body">
         <h3>Pasar por SALIDA</h3>
         <p>Cada vez que pases o caigas en la casilla SALIDA, cobras <strong>$200</strong> del banco.</p>
       </div>
     </div>
     <div class="step-item">
-      <div class="step-num">08</div>
+      <div class="step-num">09</div>
       <div class="step-body">
         <h3>¡Ganar!</h3>
         <p>El juego termina cuando todos los rivales quedan en <strong>bancarrota</strong>. El último jugador con dinero gana.</p>
@@ -105,52 +116,82 @@
   </div>
 </section>
 
+<!-- SISTEMA DE ESTUDIANTES -->
+<section class="cj-section">
+  <h2 class="section-title">Sistema de Estudiantes de Enfermería 🎓</h2>
+  <div class="cj-card objetivo" style="margin-bottom:18px;">
+    <div class="cj-icon">🎓</div>
+    <div class="cj-text">
+      <h2>¿De dónde salen?</h2>
+      <p>Cada vez que construyes en una categoría completa, ganas Estudiantes: <strong>+2</strong> con el Consultorio, <strong>+5</strong> con la Clínica, <strong>+12</strong> con el Hospital. También puedes ganar +1 ocasionalmente al sacar una Tarjeta Salud (~30% de probabilidad).</p>
+    </div>
+  </div>
+  <div class="estudiantes-grid">
+    <div class="est-card">
+      <div class="est-icon">💰</div>
+      <h3>Descuento en renta</h3>
+      <p>Por cada <strong>5 🎓</strong> que tengas, pagas <strong>5% menos</strong> de renta cuando caes en propiedad ajena. Máximo 40% de descuento.</p>
+    </div>
+    <div class="est-card">
+      <div class="est-icon">❓</div>
+      <h3>Ayuda en preguntas</h3>
+      <p>Con <strong>3+ 🎓</strong> puedes pedir ayuda en una Pregunta ECNT: se eliminan 2 de las 4 opciones antes de responder. Cuesta 3 Estudiantes.</p>
+    </div>
+    <div class="est-card">
+      <div class="est-icon">🚨</div>
+      <h3>Menos tiempo en UCI</h3>
+      <p>Con <strong>5+ 🎓</strong> puedes reducir tu estadía en UCI de 2 turnos a solo 1. Cuesta 5 Estudiantes.</p>
+    </div>
+  </div>
+</section>
+
 <!-- TABLA DE RENTAS -->
 <section class="cj-section">
   <h2 class="section-title">Tabla de Rentas por Categoría</h2>
+  <p style="color:var(--text-dim); font-size:12.5px; margin-bottom:14px; text-align:center;">La renta base se multiplica según el nivel de construcción del dueño (aplica a todo el grupo).</p>
   <div class="renta-table-wrap">
     <table class="renta-table">
       <thead>
         <tr>
           <th>Categoría</th>
-          <th>Sin Clínica</th>
-          <th>1 Clínica</th>
-          <th>2 Clínicas</th>
-          <th>Hospital</th>
+          <th>Renta base</th>
+          <th>🏢 Consultorio</th>
+          <th>🏥 Clínica</th>
+          <th>🏨 Hospital</th>
         </tr>
       </thead>
       <tbody>
         <tr class="row-cardio">
           <td>🫀 Cardiología</td>
-          <td>$120–$220</td>
+          <td>$60–$180</td>
           <td>×2</td>
           <td>×3</td>
           <td>×5</td>
         </tr>
         <tr class="row-nutri">
           <td>🥦 Nutrición</td>
-          <td>$100–$180</td>
+          <td>$45–$55</td>
           <td>×2</td>
           <td>×3</td>
           <td>×5</td>
         </tr>
         <tr class="row-diab">
           <td>🩸 Diabetes</td>
-          <td>$140–$180</td>
+          <td>$60–$80</td>
           <td>×2</td>
           <td>×3</td>
           <td>×5</td>
         </tr>
         <tr class="row-resp">
           <td>🫁 Pulmonar</td>
-          <td>$160–$200</td>
+          <td>$90–$180</td>
           <td>×2</td>
           <td>×3</td>
           <td>×5</td>
         </tr>
         <tr class="row-onco">
           <td>🔬 Oncología</td>
-          <td>$200–$240</td>
+          <td>$180–$300</td>
           <td>×2</td>
           <td>×3</td>
           <td>×5</td>

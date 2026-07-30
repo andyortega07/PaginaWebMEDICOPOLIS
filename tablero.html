@@ -20,7 +20,6 @@
     <li><a href="comojugar.html">Cómo Jugar</a></li>
     <li><a href="categorias.html">Categorías</a></li>
     <li><a href="tablero.html" class="active">Tablero</a></li>
-    <li><a href="login.html" class="nav-btn-login">Iniciar Sesión</a></li>
   </ul>
   <button class="nav-hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
 </nav>
@@ -745,10 +744,10 @@
         <rect width="110" height="75" fill="url(#wRiesgo)" rx="4" filter="url(#innerShadow)"/>
         <rect width="110" height="75" fill="url(#grainRiesgo)" rx="4" opacity="0.6"/>
         <rect x="100" y="0" width="10" height="75" fill="url(#gRiesgo)" rx="3"/>
-        <text x="45" y="18" text-anchor="middle" fill="white" font-size="7.5" font-family="Georgia" font-weight="bold">DESAFIO MEDICO</text>
+        <text x="45" y="18" text-anchor="middle" fill="white" font-size="7.5" font-family="Georgia" font-weight="bold">TARJETA RIESGO</text>
         <rect x="32" y="24" width="24" height="24" fill="#7D3C98" rx="4" opacity="0.9"/>
-        <text x="44" y="43" text-anchor="middle" fill="white" font-size="15" font-weight="bold">?</text>
-        <text x="45" y="64" text-anchor="middle" fill="#D8B8F0" font-size="7" font-family="Georgia">ELIGE UNA PREGUNTA</text>
+        <text x="44" y="43" text-anchor="middle" fill="white" font-size="15" font-weight="bold">!</text>
+        <text x="45" y="64" text-anchor="middle" fill="#D8B8F0" font-size="7" font-family="Georgia">PAGA $50-$100</text>
       </g>
 
       <!-- sq39 N-6 Hidratación -->
@@ -802,12 +801,25 @@
       <text x="199" y="516" text-anchor="middle" fill="#90E8A0" font-size="8" font-family="Georgia">óptimo"</text>
       <!-- separador -->
       <line x1="144" y1="528" x2="260" y2="528" stroke="#117A65" stroke-width="0.8" opacity="0.5"/>
-      <text x="199" y="543" text-anchor="middle" fill="#6A9870" font-size="7.5" font-family="Georgia" font-style="italic">3 tarjetas → construye</text>
-      <text x="199" y="556" text-anchor="middle" fill="#6A9870" font-size="7.5" font-family="Georgia" font-style="italic">un Consultorio 🏢</text>
-      <text x="199" y="570" text-anchor="middle" fill="#6A9870" font-size="7.5" font-family="Georgia" font-style="italic">3 Consultorios → Clínica 🏥</text>
-      <text x="199" y="583" text-anchor="middle" fill="#6A9870" font-size="7.5" font-family="Georgia" font-style="italic">4 Clínicas → Hospital 🏨</text>
-      <text x="199" y="598" text-anchor="middle" fill="#4A7860" font-size="7" font-family="Georgia">Tener 5 T.Salud: avanza 3</text>
-      <text x="199" y="608" text-anchor="middle" fill="#4A7860" font-size="7" font-family="Georgia">casillas extra</text>
+      <text x="199" y="543" text-anchor="middle" fill="#6A9870" font-size="7.5" font-family="Georgia" font-style="italic">~30% de probabilidad</text>
+      <text x="199" y="556" text-anchor="middle" fill="#6A9870" font-size="7.5" font-family="Georgia" font-style="italic">de sumar 🎓 +1 Estudiante</text>
+      <text x="199" y="572" text-anchor="middle" fill="#4A7860" font-size="7" font-family="Georgia">Construcción y Estudiantes:</text>
+      <text x="199" y="583" text-anchor="middle" fill="#4A7860" font-size="7" font-family="Georgia">ver resumen 🏗 más abajo</text>
+
+      <!-- Zona Pregunta ECNT — centro -->
+      <rect x="379" y="370" width="142" height="238" fill="#241206" rx="6" stroke="#D4A840" stroke-width="1.5" opacity="0.9"/>
+      <rect x="379" y="370" width="142" height="20"  fill="#D4A840" rx="5"/>
+      <text x="450" y="384" text-anchor="middle" fill="#241206" font-size="9" font-family="Georgia" font-weight="bold" letter-spacing="1">PREGUNTA ECNT</text>
+      <rect x="395" y="400" width="108" height="70"  fill="#2E1A06" rx="4" stroke="#D4A840" stroke-width="1"/>
+      <text x="450" y="443" text-anchor="middle" fill="#F0C860" font-size="26" font-weight="bold">❓</text>
+      <text x="450" y="490" text-anchor="middle" fill="#F0C860" font-size="8" font-family="Georgia">Ejemplo: "¿Qué % de</text>
+      <text x="450" y="504" text-anchor="middle" fill="#F0C860" font-size="8" font-family="Georgia">muertes causan las</text>
+      <text x="450" y="516" text-anchor="middle" fill="#F0C860" font-size="8" font-family="Georgia">ECNT según la OMS?"</text>
+      <line x1="395" y1="528" x2="503" y2="528" stroke="#D4A840" stroke-width="0.8" opacity="0.5"/>
+      <text x="450" y="543" text-anchor="middle" fill="#B89860" font-size="7.5" font-family="Georgia" font-style="italic">Aciertas: ganas $120</text>
+      <text x="450" y="556" text-anchor="middle" fill="#B89860" font-size="7.5" font-family="Georgia" font-style="italic">Fallas: pagas $60</text>
+      <text x="450" y="572" text-anchor="middle" fill="#8A7040" font-size="7" font-family="Georgia">3 🎓 Estudiantes = elimina</text>
+      <text x="450" y="583" text-anchor="middle" fill="#8A7040" font-size="7" font-family="Georgia">2 opciones incorrectas</text>
 
       <!-- Zona Tarjetas Riesgo — derecha -->
       <rect x="630" y="370" width="142" height="238" fill="#1E0428" rx="6" stroke="#7D3C98" stroke-width="1.5" opacity="0.9"/>
@@ -823,10 +835,8 @@
       <line x1="646" y1="528" x2="762" y2="528" stroke="#7D3C98" stroke-width="0.8" opacity="0.5"/>
       <text x="701" y="543" text-anchor="middle" fill="#9878B0" font-size="7.5" font-family="Georgia" font-style="italic">3 T.Riesgo: pierde</text>
       <text x="701" y="556" text-anchor="middle" fill="#9878B0" font-size="7.5" font-family="Georgia" font-style="italic">un turno adicional</text>
-      <text x="701" y="570" text-anchor="middle" fill="#9878B0" font-size="7.5" font-family="Georgia" font-style="italic">5 T.Riesgo: va a UCI</text>
-      <text x="701" y="583" text-anchor="middle" fill="#9878B0" font-size="7.5" font-family="Georgia" font-style="italic">directamente</text>
-      <text x="701" y="598" text-anchor="middle" fill="#6A4870" font-size="7" font-family="Georgia">Las tarjetas no se</text>
-      <text x="701" y="608" text-anchor="middle" fill="#6A4870" font-size="7" font-family="Georgia">acumulan entre rondas</text>
+      <text x="701" y="572" text-anchor="middle" fill="#9878B0" font-size="7.5" font-family="Georgia" font-style="italic">5 T.Riesgo: va a UCI</text>
+      <text x="701" y="583" text-anchor="middle" fill="#6A4870" font-size="7" font-family="Georgia">(o usa 5 🎓 y sal en 1 turno)</text>
 
       <!-- ── LEYENDA CATEGORÍAS (mitad inferior centro) ── -->
       <line x1="128" y1="622" x2="772" y2="622" stroke="#5C2E0E" stroke-width="1.2" opacity="0.7"/>
@@ -846,19 +856,15 @@
       <rect x="460" y="668" width="10" height="10" fill="#7D3C98" rx="2"/>
       <text x="477" y="678" fill="#C8A878" font-size="10" font-family="Georgia">🔬 Oncología (O-1 a O-5)</text>
 
-      <!-- Casillas especiales -->
+      <!-- Construcción y Estudiantes -->
       <line x1="128" y1="703" x2="772" y2="703" stroke="#5C2E0E" stroke-width="0.8" opacity="0.5"/>
-      <text x="450" y="718" text-anchor="middle" fill="#7A5020" font-size="8.5" font-family="Georgia" letter-spacing="2">— CASILLAS ESPECIALES —</text>
+      <text x="450" y="716" text-anchor="middle" fill="#7A5020" font-size="8.5" font-family="Georgia" letter-spacing="2">— CONSTRUCCIÓN Y ESTUDIANTES 🎓 —</text>
 
-      <rect x="145" y="727" width="10" height="10" fill="#117A65" rx="2"/>
-      <text x="162" y="737" fill="#C8A878" font-size="9.5" font-family="Georgia">💚 T.Salud: cobra $50-$100</text>
-      <rect x="145" y="743" width="10" height="10" fill="#7D3C98" rx="2"/>
-      <text x="162" y="753" fill="#C8A878" font-size="9.5" font-family="Georgia">⚠️ T.Riesgo: paga $50-$100</text>
+      <text x="450" y="732" text-anchor="middle" fill="#C8A878" font-size="9" font-family="Georgia">Con el grupo completo: 🏢 Consultorio $150 (×2) → 🏥 Clínica $400 (×3) → 🏨 Hospital $900 (×5)</text>
 
-      <rect x="450" y="727" width="10" height="10" fill="#028090" rx="2"/>
-      <text x="467" y="737" fill="#C8A878" font-size="9.5" font-family="Georgia">🛡 Zona Libre: sin pagar</text>
-      <rect x="450" y="743" width="10" height="10" fill="#C0392B" rx="2"/>
-      <text x="467" y="753" fill="#C8A878" font-size="9.5" font-family="Georgia">🚑 UCI: pierde 2 turnos</text>
+      <text x="450" y="748" text-anchor="middle" fill="#90A8C8" font-size="9" font-family="Georgia">🎓 Estudiantes: −5% renta cada 5 (máx 40%) · ayuda en preguntas (3) · −1 turno en UCI (5)</text>
+
+      <text x="450" y="763" text-anchor="middle" fill="#6A5020" font-size="7.5" font-family="Georgia" font-style="italic">Reglas completas y detalladas en la pestaña "Cómo Jugar"</text>
 
       <!-- Fichas línea decorativa -->
       <polyline points="128,765 148,765 158,748 170,782 182,742 194,766 772,766"
