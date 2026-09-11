@@ -12,7 +12,7 @@
 <!-- NAVBAR -->
 <nav class="navbar">
   <a href="index.html" class="nav-brand">
-    <span class="nav-cross">✚</span>
+    <span class="nav-cross"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-cross"/></svg></span>
     <span class="nav-title">MEDICOPOLIS</span>
   </a>
   <ul class="nav-links" id="navLinks">
@@ -21,7 +21,7 @@
     <li><a href="categorias.html">Categorías</a></li>
     <li><a href="tablero.html">Tablero</a></li>
   </ul>
-  <button class="nav-hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
+  <button class="nav-hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-menu"/></svg></button>
 </nav>
 
 <!-- PAGE HEADER -->
@@ -33,7 +33,7 @@
 <!-- OBJETIVO -->
 <section class="cj-section">
   <div class="cj-card objetivo">
-    <div class="cj-icon">🏆</div>
+    <div class="cj-icon"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-trophy"/></svg></div>
     <div class="cj-text">
       <h2>Objetivo del Juego</h2>
       <p>El objetivo de MEDICOPOLIS es ser el último jugador en pie. Compra propiedades médicas, cobra renta a tus rivales y llévalos a la bancarrota mientras aprendes sobre enfermedades crónicas no transmisibles.</p>
@@ -77,18 +77,18 @@
       <div class="step-num">05</div>
       <div class="step-body">
         <h3>Construir: Consultorio → Clínica → Hospital</h3>
-        <p>Solo puedes construir en una categoría si posees <strong>todas</strong> sus propiedades. Se construye en orden y con dinero real, desde el botón <strong>🏗 Construir</strong> del panel lateral (o con 15% de descuento si caes en el <strong>Centro de Construcción</strong>):</p>
+        <p>Solo puedes construir en una categoría si posees <strong>todas</strong> sus propiedades. Se construye en orden y con dinero real, desde el botón <strong><svg class="icon"><use href="assets/images/icons/icons.svg#ic-crane"/></svg> Construir</strong> del panel lateral (o con 15% de descuento si caes en el <strong>Centro de Construcción</strong>):</p>
         <table class="mini-build-table">
-          <tr><td>🏢 Consultorio</td><td>$150</td><td>Renta ×2</td><td>+2 🎓</td></tr>
-          <tr><td>🏥 Clínica</td><td>$400</td><td>Renta ×3</td><td>+5 🎓</td></tr>
-          <tr><td>🏨 Hospital</td><td>$900</td><td>Renta ×5</td><td>+12 🎓</td></tr>
+          <tr><td><svg class="icon"><use href="assets/images/icons/icons.svg#ic-building-sm"/></svg> Consultorio</td><td>$150</td><td>Renta ×2</td><td>+2 <svg class="icon"><use href="assets/images/icons/icons.svg#ic-grad"/></svg></td></tr>
+          <tr><td><svg class="icon"><use href="assets/images/icons/icons.svg#ic-hospital"/></svg> Clínica</td><td>$400</td><td>Renta ×3</td><td>+5 <svg class="icon"><use href="assets/images/icons/icons.svg#ic-grad"/></svg></td></tr>
+          <tr><td><svg class="icon"><use href="assets/images/icons/icons.svg#ic-building-lg"/></svg> Hospital</td><td>$900</td><td>Renta ×5</td><td>+12 <svg class="icon"><use href="assets/images/icons/icons.svg#ic-grad"/></svg></td></tr>
         </table>
       </div>
     </div>
     <div class="step-item">
       <div class="step-num">06</div>
       <div class="step-body">
-        <h3>Estudiantes de Enfermería 🎓</h3>
+        <h3>Estudiantes de Enfermería <svg class="icon"><use href="assets/images/icons/icons.svg#ic-grad"/></svg></h3>
         <p>Cada construcción te da Estudiantes. No son solo un contador: son un recurso que puedes <strong>gastar</strong> durante la partida (ver detalle completo más abajo).</p>
       </div>
     </div>
@@ -96,7 +96,7 @@
       <div class="step-num">07</div>
       <div class="step-body">
         <h3>UCI — Emergencia</h3>
-        <p>Si caes en la casilla <span class="tag-uci">UCI</span>, pierdes <strong>2 turnos</strong> o puedes pagar <strong>$150</strong> para salir inmediatamente. Si tienes 5+ 🎓 Estudiantes, puedes usarlos para quedarte solo <strong>1 turno</strong>.</p>
+        <p>Si caes en la casilla <span class="tag-uci">UCI</span>, pierdes <strong>2 turnos</strong> o puedes pagar <strong>$150</strong> para salir inmediatamente. Si tienes 5+ <svg class="icon"><use href="assets/images/icons/icons.svg#ic-grad"/></svg> Estudiantes, puedes usarlos para quedarte solo <strong>1 turno</strong>.</p>
       </div>
     </div>
     <div class="step-item">
@@ -118,9 +118,9 @@
 
 <!-- SISTEMA DE ESTUDIANTES -->
 <section class="cj-section">
-  <h2 class="section-title">Sistema de Estudiantes de Enfermería 🎓</h2>
+  <h2 class="section-title">Sistema de Estudiantes de Enfermería <svg class="icon"><use href="assets/images/icons/icons.svg#ic-grad"/></svg></h2>
   <div class="cj-card objetivo" style="margin-bottom:18px;">
-    <div class="cj-icon">🎓</div>
+    <div class="cj-icon"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-grad"/></svg></div>
     <div class="cj-text">
       <h2>¿De dónde salen?</h2>
       <p>Cada vez que construyes en una categoría completa, ganas Estudiantes: <strong>+2</strong> con el Consultorio, <strong>+5</strong> con la Clínica, <strong>+12</strong> con el Hospital. También puedes ganar +1 ocasionalmente al sacar una Tarjeta Salud (~30% de probabilidad).</p>
@@ -128,19 +128,19 @@
   </div>
   <div class="estudiantes-grid">
     <div class="est-card">
-      <div class="est-icon">💰</div>
+      <div class="est-icon"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-coins"/></svg></div>
       <h3>Descuento en renta</h3>
-      <p>Por cada <strong>5 🎓</strong> que tengas, pagas <strong>5% menos</strong> de renta cuando caes en propiedad ajena. Máximo 40% de descuento.</p>
+      <p>Por cada <strong>5 <svg class="icon"><use href="assets/images/icons/icons.svg#ic-grad"/></svg></strong> que tengas, pagas <strong>5% menos</strong> de renta cuando caes en propiedad ajena. Máximo 40% de descuento.</p>
     </div>
     <div class="est-card">
-      <div class="est-icon">❓</div>
+      <div class="est-icon"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-question"/></svg></div>
       <h3>Ayuda en preguntas</h3>
-      <p>Con <strong>3+ 🎓</strong> puedes pedir ayuda en una Pregunta ECNT: se eliminan 2 de las 4 opciones antes de responder. Cuesta 3 Estudiantes.</p>
+      <p>Con <strong>3+ <svg class="icon"><use href="assets/images/icons/icons.svg#ic-grad"/></svg></strong> puedes pedir ayuda en una Pregunta ECNT: se eliminan 2 de las 4 opciones antes de responder. Cuesta 3 Estudiantes.</p>
     </div>
     <div class="est-card">
-      <div class="est-icon">🚨</div>
+      <div class="est-icon"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-alert"/></svg></div>
       <h3>Menos tiempo en UCI</h3>
-      <p>Con <strong>5+ 🎓</strong> puedes reducir tu estadía en UCI de 2 turnos a solo 1. Cuesta 5 Estudiantes.</p>
+      <p>Con <strong>5+ <svg class="icon"><use href="assets/images/icons/icons.svg#ic-grad"/></svg></strong> puedes reducir tu estadía en UCI de 2 turnos a solo 1. Cuesta 5 Estudiantes.</p>
     </div>
   </div>
 </section>
@@ -155,42 +155,42 @@
         <tr>
           <th>Categoría</th>
           <th>Renta base</th>
-          <th>🏢 Consultorio</th>
-          <th>🏥 Clínica</th>
-          <th>🏨 Hospital</th>
+          <th><svg class="icon"><use href="assets/images/icons/icons.svg#ic-building-sm"/></svg> Consultorio</th>
+          <th><svg class="icon"><use href="assets/images/icons/icons.svg#ic-hospital"/></svg> Clínica</th>
+          <th><svg class="icon"><use href="assets/images/icons/icons.svg#ic-building-lg"/></svg> Hospital</th>
         </tr>
       </thead>
       <tbody>
         <tr class="row-cardio">
-          <td>🫀 Cardiología</td>
+          <td><svg class="icon"><use href="assets/images/icons/icons.svg#ic-heart"/></svg> Cardiología</td>
           <td>$60–$180</td>
           <td>×2</td>
           <td>×3</td>
           <td>×5</td>
         </tr>
         <tr class="row-nutri">
-          <td>🥦 Nutrición</td>
+          <td><svg class="icon"><use href="assets/images/icons/icons.svg#ic-leaf"/></svg> Nutrición</td>
           <td>$45–$55</td>
           <td>×2</td>
           <td>×3</td>
           <td>×5</td>
         </tr>
         <tr class="row-diab">
-          <td>🩸 Diabetes</td>
+          <td><svg class="icon"><use href="assets/images/icons/icons.svg#ic-drop"/></svg> Diabetes</td>
           <td>$60–$80</td>
           <td>×2</td>
           <td>×3</td>
           <td>×5</td>
         </tr>
         <tr class="row-resp">
-          <td>🫁 Pulmonar</td>
+          <td><svg class="icon"><use href="assets/images/icons/icons.svg#ic-lungs"/></svg> Pulmonar</td>
           <td>$90–$180</td>
           <td>×2</td>
           <td>×3</td>
           <td>×5</td>
         </tr>
         <tr class="row-onco">
-          <td>🔬 Oncología</td>
+          <td><svg class="icon"><use href="assets/images/icons/icons.svg#ic-micro"/></svg> Oncología</td>
           <td>$180–$300</td>
           <td>×2</td>
           <td>×3</td>
@@ -205,34 +205,34 @@
 <footer class="footer">
   <div class="footer-grid">
     <div class="footer-brand">
-      <span class="footer-cross">✚</span>
+      <span class="footer-cross"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-cross"/></svg></span>
       <span class="footer-logo">MEDICOPOLIS</span>
       <p class="footer-tagline">Juego Educativo sobre<br>Enfermedades Crónicas No Transmisibles</p>
     </div>
     <div class="footer-section">
       <h4>Contáctanos</h4>
       <ul>
-        <li>📞 <a href="tel:+593958605284">+593 95 860 5284</a></li>
-        <li>📱 <a href="https://wa.me/593958605284">WhatsApp</a></li>
-        <li>✉️ <a href="mailto:medicopoliscuenca@gmail.com">medicopoliscuenca@gmail.com</a></li>
-        <li>✉️ <a href="mailto:andyortega034@gmail.com">andyortega034@gmail.com</a></li>
+        <li><svg class="icon"><use href="assets/images/icons/icons.svg#ic-phone"/></svg> <a href="tel:+593958605284">+593 95 860 5284</a></li>
+        <li><svg class="icon"><use href="assets/images/icons/icons.svg#ic-whatsapp"/></svg> <a href="https://wa.me/593958605284">WhatsApp</a></li>
+        <li><svg class="icon"><use href="assets/images/icons/icons.svg#ic-mail"/></svg> <a href="mailto:medicopoliscuenca@gmail.com">medicopoliscuenca@gmail.com</a></li>
+        <li><svg class="icon"><use href="assets/images/icons/icons.svg#ic-mail"/></svg> <a href="mailto:andyortega034@gmail.com">andyortega034@gmail.com</a></li>
       </ul>
     </div>
     <div class="footer-section">
       <h4>Ubicación</h4>
       <ul>
-        <li>📍 Cuenca, Azuay, Ecuador</li>
-        <li>🕘 Lun – Vie: 08:00 – 17:00</li>
-        <li>🌐 <a href="https://pagina-web-medicopolis.vercel.app/index.html">www.medicopolis.edu.ec</a></li>
+        <li><svg class="icon"><use href="assets/images/icons/icons.svg#ic-pin"/></svg> Cuenca, Azuay, Ecuador</li>
+        <li><svg class="icon"><use href="assets/images/icons/icons.svg#ic-clock"/></svg> Lun – Vie: 08:00 – 17:00</li>
+        <li><svg class="icon"><use href="assets/images/icons/icons.svg#ic-globe"/></svg> <a href="https://pagina-web-medicopolis.vercel.app/index.html">www.medicopolis.edu.ec</a></li>
       </ul>
     </div>
     <div class="footer-section">
       <h4>Síguenos</h4>
       <ul class="footer-social">
-        <li><a href="https://www.facebook.com/andy.otg/">📘 Facebook</a></li>
-        <li><a href="https://www.instagram.com/andy.otg/">📸 Instagram</a></li>
-        <li><a href="https://www.youtube.com/@andyLaunchVision">▶️ YouTube</a></li>
-        <li><a href="https://github.com/andyortega07/PaginaWebMEDICOPOLIS">💼 GitHub</a></li>
+        <li><a href="https://www.facebook.com/andy.otg/"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-facebook"/></svg> Facebook</a></li>
+        <li><a href="https://www.instagram.com/andy.otg/"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-instagram"/></svg> Instagram</a></li>
+        <li><a href="https://www.youtube.com/@andyLaunchVision"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-youtube"/></svg> YouTube</a></li>
+        <li><a href="https://github.com/andyortega07/PaginaWebMEDICOPOLIS"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-github"/></svg> GitHub</a></li>
       </ul>
     </div>
   </div>

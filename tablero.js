@@ -8,8 +8,20 @@
    "MEDICOPOLIS - Referencias.docx"
 ============================================== */
 
-/* ── CARAS DE DADO ── */
-const FACES = ['⚀','⚁','⚂','⚃','⚄','⚅'];
+/* ── CARAS DE DADO (SVG con puntos, sin emojis) ── */
+const DIE_PIPS = {
+  1: [[50,50]],
+  2: [[25,25],[75,75]],
+  3: [[25,25],[50,50],[75,75]],
+  4: [[25,25],[75,25],[25,75],[75,75]],
+  5: [[25,25],[75,25],[50,50],[25,75],[75,75]],
+  6: [[25,22],[75,22],[25,50],[75,50],[25,78],[75,78]],
+};
+function dieFaceSVG(n) {
+  const pips = DIE_PIPS[n] || DIE_PIPS[1];
+  const circles = pips.map(([x, y]) => `<circle cx="${x}" cy="${y}" r="8" fill="#2C1506"/>`).join('');
+  return `<svg viewBox="0 0 100 100" width="34" height="34"><rect x="4" y="4" width="92" height="92" rx="16" fill="#F4ECDC"/>${circles}</svg>`;
+}
 
 /* ══════════════════════════════════════════════
    DATOS EDUCATIVOS Y DE JUEGO POR CASILLA
@@ -385,38 +397,74 @@ const SQUARES = [
 
 const TOTAL = SQUARES.length; // 40
 
+/* ── JUGADORES: soporta de 2 a 6 (elegido en el overlay de inicio) ── */
+const MAX_PLAYERS = 6;
+let numPlayers = 3; // valor por defecto hasta que se elija en el overlay
+const zeros6 = () => [0, 0, 0, 0, 0, 0];
+
 /* ── ESTADO DEL JUEGO ── */
 const state = {
   turn:      0,
-  positions: [0, 0, 0],
-  money:     [1500, 1500, 1500],
+  positions: zeros6(),
+  money:     [1500, 1500, 1500, 1500, 1500, 1500],
   owners:    {},                 // { casilla: playerIdx }
-  props:     [0, 0, 0],          // nº de propiedades que posee cada jugador
-  students:  [0, 0, 0],          // Estudiantes de Enfermería por jugador
+  props:     zeros6(),           // nº de propiedades que posee cada jugador
+  students:  zeros6(),           // Estudiantes de Enfermería por jugador
   groupLevel: {                  // nivel de construcción (0-3) por grupo y jugador
-    cardio:   [0, 0, 0],
-    nutri:    [0, 0, 0],
-    diabetes: [0, 0, 0],
-    pulmonar: [0, 0, 0],
-    onco:     [0, 0, 0],
+    cardio:   zeros6(),
+    nutri:    zeros6(),
+    diabetes: zeros6(),
+    pulmonar: zeros6(),
+    onco:     zeros6(),
   },
-  tSaludTurn:  [0, 0, 0],
-  tRiesgoTurn: [0, 0, 0],
+  tSaludTurn:  zeros6(),
+  tRiesgoTurn: zeros6(),
   rolling:      false,
-  uciTurns:    [0, 0, 0],
+  uciTurns:    zeros6(),
   awaitingInput: false,          // bloquea nextTurn mientras hay un modal abierto
   pendingSq:   null,
   buildDiscount: false,
 };
 
-let NAMES   = ['Jugador 1', 'Jugador 2', 'Jugador 3'];
-let TOKENS  = ['🧑', '👩', '👦'];
-const COLORS  = ['#C0392B', '#1A5276', '#1E8449'];
-const OFFSETS = [
-  { dx: -12, dy:  12 },
-  { dx:  12, dy: -12 },
-  { dx:  14, dy:  14 },
+let NAMES   = ['Jugador 1', 'Jugador 2', 'Jugador 3', 'Jugador 4', 'Jugador 5', 'Jugador 6'];
+let TOKENS  = [
+  'assets/images/players/avatar-1.svg', 'assets/images/players/avatar-2.svg',
+  'assets/images/players/avatar-3.svg', 'assets/images/players/avatar-4.svg',
+  'assets/images/players/avatar-5.svg', 'assets/images/players/avatar-6.svg',
 ];
+const COLORS  = ['#C0392B', '#1A5276', '#1E8449', '#7D3C98', '#CA6F1E', '#148F77'];
+const OFFSETS = [
+  { dx: -12, dy:  12 }, { dx:  12, dy: -12 }, { dx:  14, dy:  14 },
+  { dx: -12, dy:  -2 }, { dx:  14, dy:  -2 }, { dx:  -18, dy:  -18 },
+];
+
+/* ══════════════════════════════════════════════
+   INICIO DE PARTIDA — elegir nº de jugadores
+══════════════════════════════════════════════ */
+function applyPlayerCount(n) {
+  numPlayers = n;
+  for (let i = 0; i < MAX_PLAYERS; i++) {
+    const active = i < n;
+    const card = $('p' + i + 'card');
+    if (card) card.style.display = active ? '' : 'none';
+    const pawn  = $('pawn' + i);
+    const pawnT = $('pawn' + i + 't');
+    if (pawn)  pawn.style.display  = active ? '' : 'none';
+    if (pawnT) pawnT.style.display = active ? '' : 'none';
+  }
+}
+
+function startGame(n) {
+  applyPlayerCount(n);
+  $('setupOverlay').classList.add('hidden');
+  loadLoginPlayer();
+  initPawns();
+  updateTurnUI();
+  updateMoneyUI();
+  addLog(`🎮 ¡Juego iniciado con ${n} jugadores! Turno: ${NAMES[0]}`);
+  addLog(`💡 Pasa el cursor sobre cada casilla para ver información educativa`, 'good');
+  addLog(`🏗 Usa el botón "Construir" o cae en el Centro de Construcción para edificar`, 'good');
+}
 
 /* ══════════════════════════════════════════════
    CONEXIÓN CON EL LOGIN
@@ -433,10 +481,8 @@ function loadLoginPlayer() {
       NAMES[0] = data.name;
       document.querySelector('#p0card .player-name').textContent = data.name;
     }
-    if (data && data.token) {
-      TOKENS[0] = data.token;
-      $('p0token').textContent = data.token;
-    }
+    // Nota: el token del login (emoji) ya no aplica — el jugador usa el
+    // avatar vectorial de su color asignado (ver TOKENS/COLORS).
   } catch (e) {
     // Si no hay datos válidos, seguimos con los valores por defecto
   }
@@ -455,10 +501,10 @@ function addLog(text, cls = '') {
 }
 
 function updateMoneyUI() {
-  state.money.forEach((m, i) => {
-    $('p' + i + 'money').textContent = '$' + Math.max(0, m).toLocaleString();
+  for (let i = 0; i < numPlayers; i++) {
+    $('p' + i + 'money').textContent = '$' + Math.max(0, state.money[i]).toLocaleString();
     $('p' + i + 'props').textContent = `Props: ${state.props[i]} · 🎓 ${state.students[i]}`;
-  });
+  }
 }
 
 function updateBuildUI() {
@@ -476,7 +522,7 @@ function groupSummary(p) {
 }
 
 function updateTurnUI() {
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < numPlayers; i++) {
     const card = $('p' + i + 'card');
     const ind  = $('p' + i + 'turn');
     if (i === state.turn) {
@@ -501,42 +547,38 @@ function getPawnPos(playerIdx) {
 function movePawnSvg(playerIdx) {
   const pos    = getPawnPos(playerIdx);
   const circle = $('pawn' + playerIdx);
-  const text   = $('pawn' + playerIdx + 't');
+  const icon   = $('pawn' + playerIdx + 't'); // <use> de 19x19, se centra restando 9.5
   circle.classList.remove('pawn-moving');
-  text.classList.remove('pawn-moving');
+  icon.classList.remove('pawn-moving');
   void circle.offsetWidth;
   circle.classList.add('pawn-moving');
-  text.classList.add('pawn-moving');
+  icon.classList.add('pawn-moving');
   circle.setAttribute('cx', pos.cx);
   circle.setAttribute('cy', pos.cy);
-  text.setAttribute('x', pos.cx);
-  text.setAttribute('y', pos.cy + 6);
+  icon.setAttribute('x', pos.cx - 9.5);
+  icon.setAttribute('y', pos.cy - 9.5);
   setTimeout(() => {
     circle.classList.remove('pawn-moving');
-    text.classList.remove('pawn-moving');
+    icon.classList.remove('pawn-moving');
   }, 450);
 }
 
 function initPawns() {
-  for (let i = 0; i < 3; i++) {
-    $('pawn' + i + 't').textContent = TOKENS[i];
+  for (let i = 0; i < numPlayers; i++) {
     movePawnSvg(i);
   }
 }
 
-/* ── DADO ── */
-function dieFace(n) { return FACES[n - 1]; }
-
-function animateDie(elId, finalFace) {
+function animateDie(elId, finalValue) {
   const el = $(elId);
   let count = 0;
   el.classList.add('rolling');
   const iv = setInterval(() => {
-    el.textContent = FACES[Math.floor(Math.random() * 6)];
+    el.innerHTML = dieFaceSVG(1 + Math.floor(Math.random() * 6));
     count++;
     if (count >= 10) {
       clearInterval(iv);
-      el.textContent = finalFace;
+      el.innerHTML = dieFaceSVG(finalValue);
       el.classList.remove('rolling');
     }
   }, 55);
@@ -926,8 +968,8 @@ function rollDice() {
   const d2    = Math.floor(Math.random() * 6) + 1;
   const total = d1 + d2;
 
-  animateDie('die1', dieFace(d1));
-  animateDie('die2', dieFace(d2));
+  animateDie('die1', d1);
+  animateDie('die2', d2);
 
   const result = $('diceResult');
   result.className   = 'dice-result';
@@ -965,7 +1007,7 @@ function nextTurn() {
   state.tSaludTurn[prev]  = 0;
   state.tRiesgoTurn[prev] = 0;
 
-  state.turn = (state.turn + 1) % 3;
+  state.turn = (state.turn + 1) % numPlayers;
   updateTurnUI();
   addLog(`🎯 Turno de ${NAMES[state.turn]}`);
 
@@ -1059,11 +1101,10 @@ document.querySelectorAll('.sq-hover').forEach(el => {
   });
 });
 
-/* ── INIT ── */
-loadLoginPlayer();
-initPawns();
+/* ── INIT ──
+   El juego arranca cuando el jugador elige el nº de
+   participantes en el overlay (ver startGame() más arriba).
+   Aquí solo dejamos el tablero listo visualmente. */
+applyPlayerCount(numPlayers);
 updateTurnUI();
 updateMoneyUI();
-addLog(`🎮 ¡Juego iniciado! Turno: ${NAMES[state.turn]}`);
-addLog(`💡 Pasa el cursor sobre cada casilla para ver información educativa`, 'good');
-addLog(`🏗 Usa el botón "Construir" o cae en el Centro de Construcción para edificar`, 'good');

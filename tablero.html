@@ -7,12 +7,12 @@
   <link rel="stylesheet" href="shared.css">
   <link rel="stylesheet" href="tablero.css">
 </head>
-<body>
+<body class="page-tablero">
 
 <!-- NAVBAR -->
 <nav class="navbar">
   <a href="index.html" class="nav-brand">
-    <span class="nav-cross">✚</span>
+    <span class="nav-cross"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-cross"/></svg></span>
     <span class="nav-title">MEDICOPOLIS</span>
   </a>
   <ul class="nav-links" id="navLinks">
@@ -21,21 +21,37 @@
     <li><a href="categorias.html">Categorías</a></li>
     <li><a href="tablero.html" class="active">Tablero</a></li>
   </ul>
-  <button class="nav-hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
+  <button class="nav-hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-menu"/></svg></button>
 </nav>
 
 <!-- TOOLTIP EDUCATIVO -->
 <div id="squareTip" class="square-tooltip"></div>
 
+<!-- ══════ OVERLAY: SELECCIÓN DE Nº DE JUGADORES ══════ -->
+<div class="modal-overlay" id="setupOverlay">
+  <div class="modal-box setup-box">
+    <div class="setup-icon"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-dice"/></svg></div>
+    <h3 class="modal-title">¿Cuántos jugadores?</h3>
+    <p class="setup-sub">Elige cuántas personas participarán en esta partida</p>
+    <div class="player-count-grid">
+      <button class="count-btn" onclick="startGame(2)">2<span>JUGADORES</span></button>
+      <button class="count-btn" onclick="startGame(3)">3<span>JUGADORES</span></button>
+      <button class="count-btn" onclick="startGame(4)">4<span>JUGADORES</span></button>
+      <button class="count-btn" onclick="startGame(5)">5<span>JUGADORES</span></button>
+      <button class="count-btn" onclick="startGame(6)">6<span>JUGADORES</span></button>
+    </div>
+  </div>
+</div>
+
 <!-- GAME LAYOUT -->
 <div class="game-layout">
 
-  <!-- PANEL IZQUIERDO -->
+  <!-- PANEL IZQUIERDO: JUGADORES + CONSTRUCCIÓN -->
   <aside class="side-panel left-panel">
     <h3 class="panel-title">Jugadores</h3>
 
     <div class="player-card" id="p0card">
-      <div class="player-token" id="p0token">🧑</div>
+      <img class="player-token-img" id="p0token" src="assets/images/players/avatar-1.svg" alt="Jugador 1">
       <div class="player-info">
         <span class="player-name">Jugador 1</span>
         <span class="player-money" id="p0money">$1,500</span>
@@ -45,7 +61,7 @@
     </div>
 
     <div class="player-card" id="p1card">
-      <div class="player-token" id="p1token">👩</div>
+      <img class="player-token-img" id="p1token" src="assets/images/players/avatar-2.svg" alt="Jugador 2">
       <div class="player-info">
         <span class="player-name">Jugador 2</span>
         <span class="player-money" id="p1money">$1,500</span>
@@ -55,7 +71,7 @@
     </div>
 
     <div class="player-card" id="p2card">
-      <div class="player-token" id="p2token">👦</div>
+      <img class="player-token-img" id="p2token" src="assets/images/players/avatar-3.svg" alt="Jugador 3">
       <div class="player-info">
         <span class="player-name">Jugador 3</span>
         <span class="player-money" id="p2money">$1,500</span>
@@ -64,48 +80,59 @@
       <div class="turn-indicator hidden" id="p2turn">◀ TURNO</div>
     </div>
 
+    <div class="player-card" id="p3card">
+      <img class="player-token-img" id="p3token" src="assets/images/players/avatar-4.svg" alt="Jugador 4">
+      <div class="player-info">
+        <span class="player-name">Jugador 4</span>
+        <span class="player-money" id="p3money">$1,500</span>
+        <span class="player-props" id="p3props">Props: 0</span>
+      </div>
+      <div class="turn-indicator hidden" id="p3turn">◀ TURNO</div>
+    </div>
+
+    <div class="player-card" id="p4card">
+      <img class="player-token-img" id="p4token" src="assets/images/players/avatar-5.svg" alt="Jugador 5">
+      <div class="player-info">
+        <span class="player-name">Jugador 5</span>
+        <span class="player-money" id="p4money">$1,500</span>
+        <span class="player-props" id="p4props">Props: 0</span>
+      </div>
+      <div class="turn-indicator hidden" id="p4turn">◀ TURNO</div>
+    </div>
+
+    <div class="player-card" id="p5card">
+      <img class="player-token-img" id="p5token" src="assets/images/players/avatar-6.svg" alt="Jugador 6">
+      <div class="player-info">
+        <span class="player-name">Jugador 6</span>
+        <span class="player-money" id="p5money">$1,500</span>
+        <span class="player-props" id="p5props">Props: 0</span>
+      </div>
+      <div class="turn-indicator hidden" id="p5turn">◀ TURNO</div>
+    </div>
+
     <div class="panel-sep"></div>
 
     <!-- CONSTRUCCIÓN -->
-    <h3 class="panel-title">Construcciones 🏗</h3>
+    <h3 class="panel-title">Construcciones <svg class="icon"><use href="assets/images/icons/icons.svg#ic-crane"/></svg></h3>
     <div class="build-info" id="buildInfo">
       <div class="build-row">
-        <span class="build-label">🏗 Niveles (turno actual)</span>
+        <span class="build-label"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-crane"/></svg> Niveles (turno actual)</span>
       </div>
       <div class="build-row">
         <span class="build-val" id="bConsult0" style="font-size:9px;">Car:0  Nut:0  Dia:0  Pul:0  Onc:0</span>
       </div>
       <div class="build-sep"></div>
       <div class="tarjetas-row">
-        <span>💚 T.Salud (turno):</span><span id="tSalud0" class="t-count">0</span>
+        <span><svg class="icon"><use href="assets/images/icons/icons.svg#ic-heart"/></svg> T.Salud (turno):</span><span id="tSalud0" class="t-count">0</span>
       </div>
       <div class="tarjetas-row">
-        <span>⚠️ T.Riesgo (turno):</span><span id="tRiesgo0" class="t-count">0</span>
+        <span><svg class="icon"><use href="assets/images/icons/icons.svg#ic-alert"/></svg> T.Riesgo (turno):</span><span id="tRiesgo0" class="t-count">0</span>
       </div>
-      <button class="roll-btn" style="background:linear-gradient(135deg,#5C2E0E,#8A5530); margin-top:6px;" onclick="openBuildModal(false)">🏗 Construir</button>
+      <button class="roll-btn" style="background:linear-gradient(135deg,#5C2E0E,#8A5530); margin-top:6px;" onclick="openBuildModal(false)"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-crane"/></svg> Construir</button>
       <div class="build-note">
         Posee TODAS las propiedades de una categoría para poder construir.<br>
-        Consultorio → Clínica → Hospital. Cada nivel sube la renta y suma 🎓 Estudiantes de Enfermería.
+        Consultorio → Clínica → Hospital. Cada nivel sube la renta y suma <svg class="icon"><use href="assets/images/icons/icons.svg#ic-grad"/></svg> Estudiantes de Enfermería.
       </div>
-    </div>
-
-    <div class="panel-sep"></div>
-
-    <!-- DADOS -->
-    <h3 class="panel-title">Dados</h3>
-    <div class="dice-area">
-      <button class="die-btn" id="die1" onclick="rollDice()">⚀</button>
-      <button class="die-btn" id="die2" onclick="rollDice()">⚀</button>
-    </div>
-    <div class="dice-result" id="diceResult">Presiona un dado para tirar</div>
-    <button class="roll-btn" id="rollBtn" onclick="rollDice()">🎲 Tirar Dados</button>
-
-    <div class="panel-sep"></div>
-
-    <!-- LOG -->
-    <h3 class="panel-title">Registro</h3>
-    <div class="game-log" id="gameLog">
-      <p class="log-entry">🎮 Juego iniciado. Turno: Jugador 1</p>
     </div>
   </aside>
 
@@ -114,6 +141,35 @@
     <div class="board-wrap">
       <svg id="boardSvg" viewBox="0 0 900 900" xmlns="http://www.w3.org/2000/svg">
       <defs>
+        <!-- Íconos vectoriales reutilizables (reemplazan emojis) para las 5 zonas de categoría -->
+        <symbol id="zi-heart" viewBox="0 0 24 24"><path d="M12 20.5S3 14.8 3 8.9C3 5.6 5.5 3.5 8.3 3.5c1.7 0 3.2.9 3.7 2.3.5-1.4 2-2.3 3.7-2.3 2.8 0 5.3 2.1 5.3 5.4 0 5.9-9 11.6-9 11.6Z" fill="currentColor"/></symbol>
+        <symbol id="zi-leaf" viewBox="0 0 24 24"><path d="M20 4C10 4 4 10 4 18c0 1.1.9 2 2 2 8 0 14-6 14-16 0 0 0 0 0 0Z" fill="currentColor"/></symbol>
+        <symbol id="zi-drop" viewBox="0 0 24 24"><path d="M12 3s7 8 7 12.5A7 7 0 0 1 5 15.5C5 11 12 3 12 3Z" fill="currentColor"/></symbol>
+        <symbol id="zi-lungs" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3v7"/><path d="M12 10c-1.5-2-4-2.5-5.5-1.5C4 10 3.5 15 4.5 18.5c.5 1.7 2.5 2.2 3.5.8.7-1 1-2.6 1-4.3.7.3 1.4.3 2 0"/>
+          <path d="M12 10c1.5-2 4-2.5 5.5-1.5C20 10 20.5 15 19.5 18.5c-.5 1.7-2.5 2.2-3.5.8-.7-1-1-2.6-1-4.3-.7.3-1.4.3-2 0"/>
+        </symbol>
+        <symbol id="zi-micro" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 3v3M9 3h3M9 13a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/><path d="M7 13v3a2 2 0 0 0 2 2h1"/><path d="M5 21h10"/><path d="M14 21c1.5 0 3-1 3-3"/>
+        </symbol>
+        <symbol id="zi-crane" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 21V9l6-5v6"/><path d="M10 10h10M17 10v4M6 21V13h6v8"/>
+        </symbol>
+        <symbol id="zi-pulse" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h4l2-7 4 14 3-9 2 4h5"/></symbol>
+        <symbol id="zi-heartbreak" viewBox="0 0 24 24"><path d="M12 20.5S3 14.8 3 8.9C3 5.6 5.5 3.5 8.3 3.5c1.7 0 3.2.9 3.7 2.3.5-1.4 2-2.3 3.7-2.3 2.8 0 5.3 2.1 5.3 5.4 0 5.9-9 11.6-9 11.6Z" fill="currentColor"/><path d="M12 6l-2 5 3 2-2 5" stroke="#1E0C02" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+        <symbol id="zi-carrot" viewBox="0 0 24 24"><path d="M12 3c2 2 2 5 0 7-2-2-2-5 0-7Z" fill="currentColor"/><path d="M9 9l6 1-3 11-5-10Z" fill="currentColor"/></symbol>
+        <symbol id="zi-dna" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M6 2c0 5 12 5 12 10s-12 5-12 10M18 2c0 5-12 5-12 10s12 5 12 10"/><path d="M7 6h10M7 18h10M6.5 12h11"/></symbol>
+        <symbol id="zi-syringe" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4l-3 3M14 6l4 4-9 9-5 1 1-5 9-9Z"/><path d="M11 9l4 4M9 11l4 4"/></symbol>
+        <symbol id="zi-nosmoking" viewBox="0 0 24 24"><rect x="3" y="10" width="12" height="4" rx="1" fill="currentColor"/><path d="M16 10v4M19 10v4" stroke="currentColor" stroke-width="1.4"/><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M5 5l14 14" stroke="currentColor" stroke-width="1.7"/></symbol>
+        <symbol id="zi-question" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.6 2.2c-.8.4-1.1.9-1.1 1.8" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round"/><circle cx="12" cy="17" r="0.7" fill="currentColor"/></symbol>
+        <symbol id="zi-chart" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
+        <symbol id="zi-run" viewBox="0 0 24 24"><circle cx="14" cy="4" r="2" fill="currentColor"/><path d="M10 21l2-6 3 2 3 5M9 13l3-4 4 1 2-3M6 17l3-4" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+        <symbol id="zi-pill" viewBox="0 0 24 24"><rect x="3" y="10" width="18" height="8" rx="4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 10v8" stroke="currentColor" stroke-width="1.7"/></symbol>
+        <symbol id="zi-brain" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linejoin="round"><path d="M9 3a3 3 0 0 0-3 3 3 3 0 0 0-2 5 3 3 0 0 0 2 5h1a3 3 0 0 0 3-3V6a3 3 0 0 0-1-3Z"/><path d="M15 3a3 3 0 0 1 3 3 3 3 0 0 1 2 5 3 3 0 0 1-2 5h-1a3 3 0 0 1-3-3V6a3 3 0 0 1 1-3Z"/></symbol>
+        <symbol id="zi-shield" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 5-3 8-7 9-4-1-7-4-7-9V6l7-3Z"/><path d="m9 12 2 2 4-4"/></symbol>
+        <symbol id="zi-burger" viewBox="0 0 24 24"><path d="M4 9a8 4 0 0 1 16 0Z" fill="currentColor"/><rect x="3" y="11" width="18" height="2.4" rx="1" fill="currentColor"/><path d="M4 16h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M4 19a8 3 0 0 0 16 0Z" fill="currentColor"/></symbol>
+        <symbol id="zi-scale" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M6 7l-3 6a3 3 0 0 0 6 0L6 7Zm12 0-3 6a3 3 0 0 0 6 0l-3-6ZM4 21h16M6 7h12"/></symbol>
+        <symbol id="zi-flag" viewBox="0 0 24 24"><path d="M6 3v18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M6 4h12l-3 3 3 3H6Z" fill="currentColor"/></symbol>
         <linearGradient id="woodMain" x1="0%" y1="0%" x2="0%" y2="100%">
           <stop offset="0%"   stop-color="#7A4520"/>
           <stop offset="6%"   stop-color="#8C5528"/>
@@ -296,7 +352,7 @@
         <text x="55" y="58"  text-anchor="middle" fill="white"  font-size="11" font-family="Georgia" font-weight="bold">SALIDA</text>
         <text x="55" y="74"  text-anchor="middle" fill="#d0fff5" font-size="9"  font-family="Georgia">AL PASAR</text>
         <text x="55" y="91"  text-anchor="middle" fill="white"  font-size="12" font-family="Georgia" font-weight="bold">COBRA $200</text>
-        <text x="55" y="106" text-anchor="middle" fill="#d0fff5" font-size="8"  font-family="Georgia">🏁 INICIO</text>
+        <text x="55" y="106" text-anchor="middle" fill="#d0fff5" font-size="8"  font-family="Georgia">INICIO</text>
       </g>
 
       <!-- VISITA HOSPITAL (bottom-left) sq 10 -->
@@ -304,7 +360,7 @@
         <rect width="110" height="110" fill="#1A0A02" rx="7" filter="url(#shadow)"/>
         <rect width="110" height="110" fill="url(#grainPat)" rx="7" opacity="0.5"/>
         <rect x="0" y="0" width="110" height="10" fill="#028090" rx="5"/>
-        <text x="55" y="52"  text-anchor="middle" fill="#02C39A" font-size="30">🏗</text>
+        <use href="#zi-crane" x="43" y="40" width="24" height="24" color="#02C39A"/>
         <text x="55" y="76"  text-anchor="middle" fill="white"   font-size="9.5" font-family="Georgia" font-weight="bold">CENTRO DE</text>
         <text x="55" y="90"  text-anchor="middle" fill="#4ab8c8"  font-size="9"   font-family="Georgia" font-weight="bold">CONSTRUCCIÓN</text>
         <text x="55" y="104" text-anchor="middle" fill="#02C39A"  font-size="7.5" font-family="Georgia">−15% descuento</text>
@@ -327,10 +383,10 @@
         <rect width="110" height="110" fill="#1A0A02" rx="7" filter="url(#shadow)"/>
         <rect width="110" height="110" fill="url(#grainPat)" rx="7" opacity="0.4"/>
         <rect x="0" y="0" width="110" height="10" fill="url(#cornerTeal)" rx="5"/>
-        <text x="55" y="52"  text-anchor="middle" fill="#02C39A" font-size="28">🛡</text>
+        <use href="#zi-shield" x="42" y="39" width="26" height="26" color="#02C39A"/>
         <text x="55" y="74"  text-anchor="middle" fill="white"   font-size="13" font-family="Georgia" font-weight="bold">ZONA</text>
         <text x="55" y="90"  text-anchor="middle" fill="#02C39A" font-size="13" font-family="Georgia" font-weight="bold">LIBRE</text>
-        <text x="55" y="106" text-anchor="middle" fill="#C8A060"  font-size="8"  font-family="Georgia">sin pagar 🌿</text>
+        <text x="55" y="106" text-anchor="middle" fill="#C8A060"  font-size="8"  font-family="Georgia">sin pagar</text>
       </g>
 
       <!-- ═══════════════════════════════
@@ -341,7 +397,7 @@
         <rect width="75" height="110" fill="url(#wCardio)" rx="4" filter="url(#innerShadow)"/>
         <rect width="75" height="110" fill="url(#grainCardio)" rx="4" opacity="0.6"/>
         <rect x="0" y="0" width="75" height="9" fill="url(#gCardio)" rx="3"/>
-        <text x="37" y="27" text-anchor="middle" fill="#ff8080" font-size="18">🩺</text>
+        <use href="#zi-pulse" x="27" y="12" width="20" height="20" color="#ff8080"/>
         <text x="37" y="46" text-anchor="middle" fill="#FFD0C0" font-size="7.5" font-family="Georgia" font-weight="bold">CARDIO</text>
         <text x="37" y="59" text-anchor="middle" fill="#FFB8A8" font-size="7" font-family="Georgia">Hipertensión</text>
         <text x="37" y="82" text-anchor="middle" fill="#F0C860" font-size="9.5" font-weight="bold" font-family="Georgia">PAGA $60</text>
@@ -366,7 +422,7 @@
         <rect width="75" height="110" fill="url(#wNutri)" rx="4" filter="url(#innerShadow)"/>
         <rect width="75" height="110" fill="url(#grainNutri)" rx="4" opacity="0.6"/>
         <rect x="0" y="0" width="75" height="9" fill="url(#gNutri)" rx="3"/>
-        <text x="37" y="27" text-anchor="middle" fill="#90E898" font-size="18">🥗</text>
+        <use href="#zi-leaf" x="26" y="16" width="22" height="22" color="#90E898"/>
         <text x="37" y="46" text-anchor="middle" fill="#C8F0C0" font-size="7.5" font-family="Georgia" font-weight="bold">NUTRICIÓN</text>
         <text x="37" y="59" text-anchor="middle" fill="#A8D8A0" font-size="7" font-family="Georgia">Alimentación</text>
         <text x="37" y="82" text-anchor="middle" fill="#F0C860" font-size="9.5" font-weight="bold" font-family="Georgia">PAGA $35</text>
@@ -378,7 +434,7 @@
         <rect width="75" height="110" fill="url(#wNutri)" rx="4" filter="url(#innerShadow)"/>
         <rect width="75" height="110" fill="url(#grainNutri)" rx="4" opacity="0.6"/>
         <rect x="0" y="0" width="75" height="9" fill="url(#gNutri)" rx="3"/>
-        <text x="37" y="27" text-anchor="middle" fill="#90E898" font-size="18">⚖️</text>
+        <use href="#zi-scale" x="27" y="12" width="20" height="20" color="#90E898"/>
         <text x="37" y="46" text-anchor="middle" fill="#C8F0C0" font-size="7.5" font-family="Georgia" font-weight="bold">NUTRICIÓN</text>
         <text x="37" y="59" text-anchor="middle" fill="#A8D8A0" font-size="7" font-family="Georgia">Obesidad</text>
         <text x="37" y="82" text-anchor="middle" fill="#F0C860" font-size="9.5" font-weight="bold" font-family="Georgia">PAGA $50</text>
@@ -390,7 +446,7 @@
         <rect width="75" height="110" fill="url(#wPago)" rx="4" filter="url(#innerShadow)"/>
         <rect width="75" height="110" fill="url(#grainPago)" rx="4" opacity="0.6"/>
         <rect x="0" y="0" width="75" height="9" fill="url(#gPago)" rx="3"/>
-        <text x="37" y="30" text-anchor="middle" fill="#F8E890" font-size="22">❓</text>
+        <use href="#zi-question" x="25" y="15" width="24" height="24" color="#F8E890"/>
         <text x="37" y="50" text-anchor="middle" fill="#F8E890" font-size="7.5" font-family="Georgia" font-weight="bold">PREGUNTA</text>
         <text x="37" y="63" text-anchor="middle" fill="#D8C870" font-size="7" font-family="Georgia">ECNT #1</text>
         <text x="37" y="85" text-anchor="middle" fill="#02C39A" font-size="8" font-weight="bold" font-family="Georgia">RESPONDE</text>
@@ -401,7 +457,7 @@
         <rect width="75" height="110" fill="url(#wDiab)" rx="4" filter="url(#innerShadow)"/>
         <rect width="75" height="110" fill="url(#grainDiab)" rx="4" opacity="0.6"/>
         <rect x="0" y="0" width="75" height="9" fill="url(#gDiab)" rx="3"/>
-        <text x="37" y="27" text-anchor="middle" fill="#F8E898" font-size="18">🩸</text>
+        <use href="#zi-drop" x="26" y="16" width="22" height="22" color="#F8E898"/>
         <text x="37" y="46" text-anchor="middle" fill="#F8E898" font-size="7.5" font-family="Georgia" font-weight="bold">DIABETES</text>
         <text x="37" y="59" text-anchor="middle" fill="#D8C878" font-size="7" font-family="Georgia">Tipo 2</text>
         <text x="37" y="82" text-anchor="middle" fill="#F0C860" font-size="9.5" font-weight="bold" font-family="Georgia">PAGA $60</text>
@@ -413,7 +469,7 @@
         <rect width="75" height="110" fill="url(#wCardio)" rx="4" filter="url(#innerShadow)"/>
         <rect width="75" height="110" fill="url(#grainCardio)" rx="4" opacity="0.6"/>
         <rect x="0" y="0" width="75" height="9" fill="url(#gCardio)" rx="3"/>
-        <text x="37" y="27" text-anchor="middle" fill="#FF9090" font-size="18">💔</text>
+        <use href="#zi-heartbreak" x="27" y="12" width="20" height="20" color="#FF9090"/>
         <text x="37" y="46" text-anchor="middle" fill="#FFD0C0" font-size="7.5" font-family="Georgia" font-weight="bold">CARDIO</text>
         <text x="37" y="59" text-anchor="middle" fill="#FFB8A8" font-size="7" font-family="Georgia">Infarto IAM</text>
         <text x="37" y="82" text-anchor="middle" fill="#F0C860" font-size="9.5" font-weight="bold" font-family="Georgia">PAGA $150</text>
@@ -437,7 +493,7 @@
         <rect width="75" height="110" fill="url(#wResp)" rx="4" filter="url(#innerShadow)"/>
         <rect width="75" height="110" fill="url(#grainResp)" rx="4" opacity="0.6"/>
         <rect x="0" y="0" width="75" height="9" fill="url(#gResp)" rx="3"/>
-        <text x="37" y="27" text-anchor="middle" fill="#A8D8F8" font-size="18">🫁</text>
+        <use href="#zi-lungs" x="26" y="16" width="22" height="22" color="#A8D8F8"/>
         <text x="37" y="46" text-anchor="middle" fill="#C0E0F8" font-size="7.5" font-family="Georgia" font-weight="bold">PULMONAR</text>
         <text x="37" y="59" text-anchor="middle" fill="#A0C8E8" font-size="7" font-family="Georgia">EPOC</text>
         <text x="37" y="82" text-anchor="middle" fill="#F0C860" font-size="9.5" font-weight="bold" font-family="Georgia">PAGA $90</text>
@@ -456,7 +512,7 @@
         <text x="37" y="36" text-anchor="middle" fill="#F0C860" font-size="8.5" font-weight="bold" font-family="Georgia">$225 · R$45</text>
         <text x="37" y="60" text-anchor="middle" fill="#A8D8A0" font-size="6.5" font-family="Georgia">Def. Nutrientes</text>
         <text x="37" y="75" text-anchor="middle" fill="#C8F0C0" font-size="7.5" font-family="Georgia" font-weight="bold">NUTRICIÓN</text>
-        <text x="37" y="96" text-anchor="middle" fill="#90E898" font-size="18">🥕</text>
+        <use href="#zi-carrot" x="27" y="81" width="20" height="20" color="#90E898"/>
       </g>
 
       <!-- sq22 O-3 Prevención -->
@@ -468,7 +524,7 @@
         <text x="37" y="36" text-anchor="middle" fill="#7CF0A8" font-size="9.5" font-weight="bold" font-family="Georgia">GANA $95</text>
         <text x="37" y="60" text-anchor="middle" fill="#D8B8F0" font-size="7" font-family="Georgia">Prevención</text>
         <text x="37" y="75" text-anchor="middle" fill="#E8D0FF" font-size="7.5" font-family="Georgia" font-weight="bold">ONCOLOGÍA</text>
-        <text x="37" y="96" text-anchor="middle" fill="#D8B8F0" font-size="18">🧬</text>
+        <use href="#zi-dna" x="27" y="81" width="20" height="20" color="#D8B8F0"/>
       </g>
 
       <!-- sq23 Examen de Salud -->
@@ -479,7 +535,7 @@
         <text x="37" y="22" text-anchor="middle" fill="#02C39A" font-size="8" font-family="Georgia" font-weight="bold">RESPONDE</text>
         <text x="37" y="50" text-anchor="middle" fill="#D8C870" font-size="7" font-family="Georgia">Pregunta</text>
         <text x="37" y="64" text-anchor="middle" fill="#F8E890" font-size="7.5" font-family="Georgia" font-weight="bold">ECNT #2</text>
-        <text x="37" y="88" text-anchor="middle" fill="#F8E890" font-size="18">❓</text>
+        <use href="#zi-question" x="27" y="73" width="20" height="20" color="#F8E890"/>
       </g>
 
       <!-- sq24 D-3 Insulina -->
@@ -491,7 +547,7 @@
         <text x="37" y="36" text-anchor="middle" fill="#F0C860" font-size="9.5" font-weight="bold" font-family="Georgia">PAGA $80</text>
         <text x="37" y="60" text-anchor="middle" fill="#D8C878" font-size="7" font-family="Georgia">Insulina</text>
         <text x="37" y="75" text-anchor="middle" fill="#F8E898" font-size="7.5" font-family="Georgia" font-weight="bold">DIABETES</text>
-        <text x="37" y="96" text-anchor="middle" fill="#F8E898" font-size="18">💉</text>
+        <use href="#zi-syringe" x="27" y="81" width="20" height="20" color="#F8E898"/>
       </g>
 
       <!-- sq25 C-4 Colesterol -->
@@ -503,7 +559,7 @@
         <text x="37" y="36" text-anchor="middle" fill="#7CF0A8" font-size="9.5" font-weight="bold" font-family="Georgia">GANA $90</text>
         <text x="37" y="60" text-anchor="middle" fill="#FFB8A8" font-size="6.5" font-family="Georgia">Control Colest.</text>
         <text x="37" y="75" text-anchor="middle" fill="#FFD0C0" font-size="7.5" font-family="Georgia" font-weight="bold">CARDIO</text>
-        <text x="37" y="96" text-anchor="middle" fill="#FF9090" font-size="18">🫀</text>
+        <use href="#zi-heart" x="26" y="85" width="22" height="22" color="#FF9090"/>
       </g>
 
       <!-- sq26 Tarjeta Salud -->
@@ -528,7 +584,7 @@
         <text x="37" y="36" text-anchor="middle" fill="#7CF0A8" font-size="9.5" font-weight="bold" font-family="Georgia">GANA $85</text>
         <text x="37" y="60" text-anchor="middle" fill="#A0C8E8" font-size="6.5" font-family="Georgia">Cesación Tabaco</text>
         <text x="37" y="75" text-anchor="middle" fill="#C0E0F8" font-size="7.5" font-family="Georgia" font-weight="bold">PULMONAR</text>
-        <text x="37" y="96" text-anchor="middle" fill="#A8D8F8" font-size="18">🚭</text>
+        <use href="#zi-nosmoking" x="27" y="81" width="20" height="20" color="#A8D8F8"/>
       </g>
 
       <!-- sq28 O-4 Diagnóstico -->
@@ -540,7 +596,7 @@
         <text x="37" y="36" text-anchor="middle" fill="#F0C860" font-size="9.5" font-weight="bold" font-family="Georgia">PAGA $180</text>
         <text x="37" y="60" text-anchor="middle" fill="#D8B8F0" font-size="7" font-family="Georgia">Diagnóstico</text>
         <text x="37" y="75" text-anchor="middle" fill="#E8D0FF" font-size="7.5" font-family="Georgia" font-weight="bold">ONCOLOGÍA</text>
-        <text x="37" y="96" text-anchor="middle" fill="#D8B8F0" font-size="18">🔭</text>
+        <use href="#zi-micro" x="27" y="81" width="20" height="20" color="#D8B8F0"/>
       </g>
 
       <!-- sq29 Tarjeta Riesgo -->
@@ -563,7 +619,7 @@
         <rect width="110" height="75" fill="url(#wResp)" rx="4" filter="url(#innerShadow)"/>
         <rect width="110" height="75" fill="url(#grainResp)" rx="4" opacity="0.6"/>
         <rect x="0" y="0" width="10" height="75" fill="url(#gResp)" rx="3"/>
-        <text x="65" y="22" text-anchor="middle" fill="#A8D8F8" font-size="15">😮‍💨</text>
+        <use href="#zi-lungs" x="56" y="9" width="18" height="18" color="#A8D8F8"/>
         <text x="65" y="38" text-anchor="middle" fill="#C0E0F8" font-size="7.5" font-family="Georgia" font-weight="bold">PULMONAR</text>
         <text x="65" y="51" text-anchor="middle" fill="#A0C8E8" font-size="7" font-family="Georgia">Control Asma</text>
         <text x="65" y="66" text-anchor="middle" fill="#7CF0A8" font-size="8" font-weight="bold" font-family="Georgia">GANA $55 · R-2</text>
@@ -574,7 +630,7 @@
         <rect width="110" height="75" fill="url(#wDiab)" rx="4" filter="url(#innerShadow)"/>
         <rect width="110" height="75" fill="url(#grainDiab)" rx="4" opacity="0.6"/>
         <rect x="0" y="0" width="10" height="75" fill="url(#gDiab)" rx="3"/>
-        <text x="65" y="22" text-anchor="middle" fill="#F8E898" font-size="15">📊</text>
+        <use href="#zi-chart" x="56" y="9" width="18" height="18" color="#F8E898"/>
         <text x="65" y="38" text-anchor="middle" fill="#F8E898" font-size="7.5" font-family="Georgia" font-weight="bold">DIABETES</text>
         <text x="65" y="51" text-anchor="middle" fill="#D8C878" font-size="7" font-family="Georgia">Automonitoreo</text>
         <text x="65" y="66" text-anchor="middle" fill="#7CF0A8" font-size="8" font-weight="bold" font-family="Georgia">GANA $45 · D-2</text>
@@ -597,7 +653,7 @@
         <rect width="110" height="75" fill="url(#wOnco)" rx="4" filter="url(#innerShadow)"/>
         <rect width="110" height="75" fill="url(#grainOnco)" rx="4" opacity="0.6"/>
         <rect x="0" y="0" width="10" height="75" fill="url(#gOnco)" rx="3"/>
-        <text x="65" y="22" text-anchor="middle" fill="#D8B8F0" font-size="15">🔬</text>
+        <use href="#zi-micro" x="55" y="12" width="20" height="20" color="#D8B8F0"/>
         <text x="65" y="38" text-anchor="middle" fill="#E8D0FF" font-size="7.5" font-family="Georgia" font-weight="bold">ONCOLOGÍA</text>
         <text x="65" y="51" text-anchor="middle" fill="#D8B8F0" font-size="7" font-family="Georgia">Detección</text>
         <text x="65" y="66" text-anchor="middle" fill="#7CF0A8" font-size="8" font-weight="bold" font-family="Georgia">GANA $110 · O-1</text>
@@ -608,7 +664,7 @@
         <rect width="110" height="75" fill="url(#wPago)" rx="4" filter="url(#innerShadow)"/>
         <rect width="110" height="75" fill="url(#grainPago)" rx="4" opacity="0.6"/>
         <rect x="0" y="0" width="10" height="75" fill="url(#gPago)" rx="3"/>
-        <text x="65" y="22" text-anchor="middle" fill="#F8E890" font-size="15">🛡️</text>
+        <use href="#zi-shield" x="56" y="9" width="18" height="18" color="#F8E890"/>
         <text x="65" y="38" text-anchor="middle" fill="#F8E890" font-size="7.5" font-family="Georgia" font-weight="bold">SEGURO</text>
         <text x="65" y="51" text-anchor="middle" fill="#D8C870" font-size="7" font-family="Georgia">Médico</text>
         <text x="65" y="66" text-anchor="middle" fill="#90E8A0" font-size="8" font-weight="bold" font-family="Georgia">COBRA $100</text>
@@ -619,7 +675,7 @@
         <rect width="110" height="75" fill="url(#wCardio)" rx="4" filter="url(#innerShadow)"/>
         <rect width="110" height="75" fill="url(#grainCardio)" rx="4" opacity="0.6"/>
         <rect x="0" y="0" width="10" height="75" fill="url(#gCardio)" rx="3"/>
-        <text x="65" y="22" text-anchor="middle" fill="#FF9090" font-size="15">🏃</text>
+        <use href="#zi-run" x="56" y="9" width="18" height="18" color="#FF9090"/>
         <text x="65" y="38" text-anchor="middle" fill="#FFD0C0" font-size="7.5" font-family="Georgia" font-weight="bold">CARDIO</text>
         <text x="65" y="51" text-anchor="middle" fill="#FFB8A8" font-size="7" font-family="Georgia">Ejercicio</text>
         <text x="65" y="66" text-anchor="middle" fill="#F0C860" font-size="8" font-weight="bold" font-family="Georgia">PAGA $80 · C-3</text>
@@ -630,7 +686,7 @@
         <rect width="110" height="75" fill="url(#wNutri)" rx="4" filter="url(#innerShadow)"/>
         <rect width="110" height="75" fill="url(#grainNutri)" rx="4" opacity="0.6"/>
         <rect x="0" y="0" width="10" height="75" fill="url(#gNutri)" rx="3"/>
-        <text x="65" y="22" text-anchor="middle" fill="#90E898" font-size="15">🥑</text>
+        <use href="#zi-leaf" x="56" y="9" width="18" height="18" color="#90E898"/>
         <text x="65" y="38" text-anchor="middle" fill="#C8F0C0" font-size="7.5" font-family="Georgia" font-weight="bold">NUTRICIÓN</text>
         <text x="65" y="51" text-anchor="middle" fill="#A8D8A0" font-size="7" font-family="Georgia">Dieta Sana</text>
         <text x="65" y="66" text-anchor="middle" fill="#F0C860" font-size="8" font-weight="bold" font-family="Georgia">PAGA $60 · N-3</text>
@@ -652,7 +708,7 @@
         <rect width="110" height="75" fill="url(#wOnco)" rx="4" filter="url(#innerShadow)"/>
         <rect width="110" height="75" fill="url(#grainOnco)" rx="4" opacity="0.6"/>
         <rect x="0" y="0" width="10" height="75" fill="url(#gOnco)" rx="3"/>
-        <text x="65" y="22" text-anchor="middle" fill="#D8B8F0" font-size="15">💊</text>
+        <use href="#zi-pill" x="56" y="9" width="18" height="18" color="#D8B8F0"/>
         <text x="65" y="38" text-anchor="middle" fill="#E8D0FF" font-size="7.5" font-family="Georgia" font-weight="bold">ONCOLOGÍA</text>
         <text x="65" y="51" text-anchor="middle" fill="#D8B8F0" font-size="7" font-family="Georgia">Tratamiento</text>
         <text x="65" y="66" text-anchor="middle" fill="#F0C860" font-size="8" font-weight="bold" font-family="Georgia">PAGA $300 · O-2</text>
@@ -666,7 +722,7 @@
         <rect width="110" height="75" fill="url(#wDiab)" rx="4" filter="url(#innerShadow)"/>
         <rect width="110" height="75" fill="url(#grainDiab)" rx="4" opacity="0.6"/>
         <rect x="100" y="0" width="10" height="75" fill="url(#gDiab)" rx="3"/>
-        <text x="45" y="22" text-anchor="middle" fill="#F8E898" font-size="15">🧬</text>
+        <use href="#zi-dna" x="36" y="9" width="18" height="18" color="#F8E898"/>
         <text x="45" y="38" text-anchor="middle" fill="#F8E898" font-size="7.5" font-family="Georgia" font-weight="bold">DIABETES</text>
         <text x="45" y="51" text-anchor="middle" fill="#D8C878" font-size="6.5" font-family="Georgia">Prevención RI</text>
         <text x="45" y="66" text-anchor="middle" fill="#7CF0A8" font-size="8" font-weight="bold" font-family="Georgia">GANA $70 · D-4</text>
@@ -677,7 +733,7 @@
         <rect width="110" height="75" fill="url(#wNutri)" rx="4" filter="url(#innerShadow)"/>
         <rect width="110" height="75" fill="url(#grainNutri)" rx="4" opacity="0.6"/>
         <rect x="100" y="0" width="10" height="75" fill="url(#gNutri)" rx="3"/>
-        <text x="45" y="22" text-anchor="middle" fill="#90E898" font-size="15">🍔</text>
+        <use href="#zi-burger" x="36" y="9" width="18" height="18" color="#90E898"/>
         <text x="45" y="38" text-anchor="middle" fill="#C8F0C0" font-size="7.5" font-family="Georgia" font-weight="bold">NUTRICIÓN</text>
         <text x="45" y="51" text-anchor="middle" fill="#A8D8A0" font-size="7" font-family="Georgia">Ultra-proc.</text>
         <text x="45" y="66" text-anchor="middle" fill="#F0C860" font-size="8" font-weight="bold" font-family="Georgia">PAGA $55 · N-5</text>
@@ -688,7 +744,7 @@
         <rect width="110" height="75" fill="url(#wPago)" rx="4" filter="url(#innerShadow)"/>
         <rect width="110" height="75" fill="url(#grainPago)" rx="4" opacity="0.6"/>
         <rect x="100" y="0" width="10" height="75" fill="url(#gPago)" rx="3"/>
-        <text x="45" y="22" text-anchor="middle" fill="#F8E890" font-size="15">❓</text>
+        <use href="#zi-question" x="36" y="9" width="18" height="18" color="#F8E890"/>
         <text x="45" y="38" text-anchor="middle" fill="#F8E890" font-size="7.5" font-family="Georgia" font-weight="bold">PREGUNTA</text>
         <text x="45" y="51" text-anchor="middle" fill="#D8C870" font-size="7" font-family="Georgia">ECNT #3</text>
         <text x="45" y="66" text-anchor="middle" fill="#02C39A" font-size="8" font-weight="bold" font-family="Georgia">RESPONDE</text>
@@ -699,7 +755,7 @@
         <rect width="110" height="75" fill="url(#wCardio)" rx="4" filter="url(#innerShadow)"/>
         <rect width="110" height="75" fill="url(#grainCardio)" rx="4" opacity="0.6"/>
         <rect x="100" y="0" width="10" height="75" fill="url(#gCardio)" rx="3"/>
-        <text x="45" y="22" text-anchor="middle" fill="#FF9090" font-size="15">🧠</text>
+        <use href="#zi-brain" x="36" y="9" width="18" height="18" color="#FF9090"/>
         <text x="45" y="38" text-anchor="middle" fill="#FFD0C0" font-size="7.5" font-family="Georgia" font-weight="bold">CARDIO</text>
         <text x="45" y="51" text-anchor="middle" fill="#FFB8A8" font-size="7" font-family="Georgia">ACV</text>
         <text x="45" y="66" text-anchor="middle" fill="#F0C860" font-size="8" font-weight="bold" font-family="Georgia">PAGA $180 · C-5</text>
@@ -722,7 +778,7 @@
         <rect width="110" height="75" fill="url(#wResp)" rx="4" filter="url(#innerShadow)"/>
         <rect width="110" height="75" fill="url(#grainResp)" rx="4" opacity="0.6"/>
         <rect x="100" y="0" width="10" height="75" fill="url(#gResp)" rx="3"/>
-        <text x="45" y="22" text-anchor="middle" fill="#A8D8F8" font-size="15">🌡️</text>
+        <use href="#zi-pulse" x="36" y="9" width="18" height="18" color="#A8D8F8"/>
         <text x="45" y="38" text-anchor="middle" fill="#C0E0F8" font-size="7.5" font-family="Georgia" font-weight="bold">PULMONAR</text>
         <text x="45" y="51" text-anchor="middle" fill="#A0C8E8" font-size="7" font-family="Georgia">Fibrosis</text>
         <text x="45" y="66" text-anchor="middle" fill="#F0C860" font-size="8" font-weight="bold" font-family="Georgia">PAGA $180 · R-4</text>
@@ -733,7 +789,7 @@
         <rect width="110" height="75" fill="url(#wOnco)" rx="4" filter="url(#innerShadow)"/>
         <rect width="110" height="75" fill="url(#grainOnco)" rx="4" opacity="0.6"/>
         <rect x="100" y="0" width="10" height="75" fill="url(#gOnco)" rx="3"/>
-        <text x="45" y="22" text-anchor="middle" fill="#D8B8F0" font-size="15">🧫</text>
+        <use href="#zi-micro" x="36" y="9" width="18" height="18" color="#D8B8F0"/>
         <text x="45" y="38" text-anchor="middle" fill="#E8D0FF" font-size="7.5" font-family="Georgia" font-weight="bold">ONCOLOGÍA</text>
         <text x="45" y="51" text-anchor="middle" fill="#D8B8F0" font-size="7" font-family="Georgia">Biología</text>
         <text x="45" y="66" text-anchor="middle" fill="#F0C860" font-size="8" font-weight="bold" font-family="Georgia">PAGA $180 · O-5</text>
@@ -755,7 +811,7 @@
         <rect width="110" height="75" fill="url(#wNutri)" rx="4" filter="url(#innerShadow)"/>
         <rect width="110" height="75" fill="url(#grainNutri)" rx="4" opacity="0.6"/>
         <rect x="100" y="0" width="10" height="75" fill="url(#gNutri)" rx="3"/>
-        <text x="45" y="22" text-anchor="middle" fill="#90E898" font-size="15">💧</text>
+        <use href="#zi-drop" x="36" y="9" width="18" height="18" color="#90E898"/>
         <text x="45" y="38" text-anchor="middle" fill="#C8F0C0" font-size="7.5" font-family="Georgia" font-weight="bold">NUTRICIÓN</text>
         <text x="45" y="51" text-anchor="middle" fill="#A8D8A0" font-size="7" font-family="Georgia">Hidratación</text>
         <text x="45" y="66" text-anchor="middle" fill="#F0C860" font-size="8" font-weight="bold" font-family="Georgia">PAGA $65 · N-6</text>
@@ -802,23 +858,23 @@
       <!-- separador -->
       <line x1="144" y1="528" x2="260" y2="528" stroke="#117A65" stroke-width="0.8" opacity="0.5"/>
       <text x="199" y="543" text-anchor="middle" fill="#6A9870" font-size="7.5" font-family="Georgia" font-style="italic">~30% de probabilidad</text>
-      <text x="199" y="556" text-anchor="middle" fill="#6A9870" font-size="7.5" font-family="Georgia" font-style="italic">de sumar 🎓 +1 Estudiante</text>
+      <text x="199" y="556" text-anchor="middle" fill="#6A9870" font-size="7.5" font-family="Georgia" font-style="italic">de sumar +1 Estudiante</text>
       <text x="199" y="572" text-anchor="middle" fill="#4A7860" font-size="7" font-family="Georgia">Construcción y Estudiantes:</text>
-      <text x="199" y="583" text-anchor="middle" fill="#4A7860" font-size="7" font-family="Georgia">ver resumen 🏗 más abajo</text>
+      <text x="199" y="583" text-anchor="middle" fill="#4A7860" font-size="7" font-family="Georgia">ver resumen más abajo</text>
 
       <!-- Zona Pregunta ECNT — centro -->
       <rect x="379" y="370" width="142" height="238" fill="#241206" rx="6" stroke="#D4A840" stroke-width="1.5" opacity="0.9"/>
       <rect x="379" y="370" width="142" height="20"  fill="#D4A840" rx="5"/>
       <text x="450" y="384" text-anchor="middle" fill="#241206" font-size="9" font-family="Georgia" font-weight="bold" letter-spacing="1">PREGUNTA ECNT</text>
       <rect x="395" y="400" width="108" height="70"  fill="#2E1A06" rx="4" stroke="#D4A840" stroke-width="1"/>
-      <text x="450" y="443" text-anchor="middle" fill="#F0C860" font-size="26" font-weight="bold">❓</text>
+      <use href="#zi-question" x="434" y="427" width="32" height="32" color="#F0C860"/>
       <text x="450" y="490" text-anchor="middle" fill="#F0C860" font-size="8" font-family="Georgia">Ejemplo: "¿Qué % de</text>
       <text x="450" y="504" text-anchor="middle" fill="#F0C860" font-size="8" font-family="Georgia">muertes causan las</text>
       <text x="450" y="516" text-anchor="middle" fill="#F0C860" font-size="8" font-family="Georgia">ECNT según la OMS?"</text>
       <line x1="395" y1="528" x2="503" y2="528" stroke="#D4A840" stroke-width="0.8" opacity="0.5"/>
       <text x="450" y="543" text-anchor="middle" fill="#B89860" font-size="7.5" font-family="Georgia" font-style="italic">Aciertas: ganas $120</text>
       <text x="450" y="556" text-anchor="middle" fill="#B89860" font-size="7.5" font-family="Georgia" font-style="italic">Fallas: pagas $60</text>
-      <text x="450" y="572" text-anchor="middle" fill="#8A7040" font-size="7" font-family="Georgia">3 🎓 Estudiantes = elimina</text>
+      <text x="450" y="572" text-anchor="middle" fill="#8A7040" font-size="7" font-family="Georgia">3 Estudiantes = elimina</text>
       <text x="450" y="583" text-anchor="middle" fill="#8A7040" font-size="7" font-family="Georgia">2 opciones incorrectas</text>
 
       <!-- Zona Tarjetas Riesgo — derecha -->
@@ -836,7 +892,7 @@
       <text x="701" y="543" text-anchor="middle" fill="#9878B0" font-size="7.5" font-family="Georgia" font-style="italic">3 T.Riesgo: pierde</text>
       <text x="701" y="556" text-anchor="middle" fill="#9878B0" font-size="7.5" font-family="Georgia" font-style="italic">un turno adicional</text>
       <text x="701" y="572" text-anchor="middle" fill="#9878B0" font-size="7.5" font-family="Georgia" font-style="italic">5 T.Riesgo: va a UCI</text>
-      <text x="701" y="583" text-anchor="middle" fill="#6A4870" font-size="7" font-family="Georgia">(o usa 5 🎓 y sal en 1 turno)</text>
+      <text x="701" y="583" text-anchor="middle" fill="#6A4870" font-size="7" font-family="Georgia">(o usa 5 Estudiantes y sal en 1 turno)</text>
 
       <!-- ── LEYENDA CATEGORÍAS (mitad inferior centro) ── -->
       <line x1="128" y1="622" x2="772" y2="622" stroke="#5C2E0E" stroke-width="1.2" opacity="0.7"/>
@@ -844,25 +900,25 @@
 
       <!-- Categorías col izq -->
       <rect x="145" y="652" width="10" height="10" fill="#C0392B" rx="2"/>
-      <text x="162" y="662" fill="#C8A878" font-size="10" font-family="Georgia">🫀 Cardiología (C-1 a C-5)</text>
+      <text x="162" y="662" fill="#C8A878" font-size="10" font-family="Georgia">Cardiología (C-1 a C-5)</text>
       <rect x="145" y="668" width="10" height="10" fill="#1E8449" rx="2"/>
-      <text x="162" y="678" fill="#C8A878" font-size="10" font-family="Georgia">🥗 Nutrición (N-1 a N-6)</text>
+      <text x="162" y="678" fill="#C8A878" font-size="10" font-family="Georgia">Nutrición (N-1 a N-6)</text>
       <rect x="145" y="684" width="10" height="10" fill="#D4AC0D" rx="2"/>
-      <text x="162" y="694" fill="#C8A878" font-size="10" font-family="Georgia">🩸 Diabetes (D-1 a D-4)</text>
+      <text x="162" y="694" fill="#C8A878" font-size="10" font-family="Georgia">Diabetes (D-1 a D-4)</text>
 
       <!-- Categorías col der -->
       <rect x="460" y="652" width="10" height="10" fill="#1A5276" rx="2"/>
-      <text x="477" y="662" fill="#C8A878" font-size="10" font-family="Georgia">🫁 Pulmonar (R-1 a R-4)</text>
+      <text x="477" y="662" fill="#C8A878" font-size="10" font-family="Georgia">Pulmonar (R-1 a R-4)</text>
       <rect x="460" y="668" width="10" height="10" fill="#7D3C98" rx="2"/>
-      <text x="477" y="678" fill="#C8A878" font-size="10" font-family="Georgia">🔬 Oncología (O-1 a O-5)</text>
+      <text x="477" y="678" fill="#C8A878" font-size="10" font-family="Georgia">Oncología (O-1 a O-5)</text>
 
       <!-- Construcción y Estudiantes -->
       <line x1="128" y1="703" x2="772" y2="703" stroke="#5C2E0E" stroke-width="0.8" opacity="0.5"/>
-      <text x="450" y="716" text-anchor="middle" fill="#7A5020" font-size="8.5" font-family="Georgia" letter-spacing="2">— CONSTRUCCIÓN Y ESTUDIANTES 🎓 —</text>
+      <text x="450" y="716" text-anchor="middle" fill="#7A5020" font-size="8.5" font-family="Georgia" letter-spacing="2">— CONSTRUCCIÓN Y ESTUDIANTES —</text>
 
-      <text x="450" y="732" text-anchor="middle" fill="#C8A878" font-size="9" font-family="Georgia">Con el grupo completo: 🏢 Consultorio $150 (×2) → 🏥 Clínica $400 (×3) → 🏨 Hospital $900 (×5)</text>
+      <text x="450" y="732" text-anchor="middle" fill="#C8A878" font-size="9" font-family="Georgia">Con el grupo completo: Consultorio $150 (×2) → Clínica $400 (×3) → Hospital $900 (×5)</text>
 
-      <text x="450" y="748" text-anchor="middle" fill="#90A8C8" font-size="9" font-family="Georgia">🎓 Estudiantes: −5% renta cada 5 (máx 40%) · ayuda en preguntas (3) · −1 turno en UCI (5)</text>
+      <text x="450" y="748" text-anchor="middle" fill="#90A8C8" font-size="9" font-family="Georgia">Estudiantes: −5% renta cada 5 (máx 40%) · ayuda en preguntas (3) · −1 turno en UCI (5)</text>
 
       <text x="450" y="763" text-anchor="middle" fill="#6A5020" font-size="7.5" font-family="Georgia" font-style="italic">Reglas completas y detalladas en la pestaña "Cómo Jugar"</text>
 
@@ -870,17 +926,48 @@
       <polyline points="128,765 148,765 158,748 170,782 182,742 194,766 772,766"
         fill="none" stroke="#8A5530" stroke-width="1.2" opacity="0.25" stroke-linejoin="round"/>
 
-      <!-- ── FICHAS SVG jugadores activos ── -->
+      <!-- ── FICHAS SVG jugadores activos ──
+           Silueta vectorial reutilizable (reemplaza emojis) -->
+      <symbol id="pawnIcon" viewBox="0 0 24 24">
+        <circle cx="12" cy="7.6" r="3.6"/>
+        <path d="M4 21c0-5 3.6-8 8-8s8 3 8 8Z"/>
+      </symbol>
+
       <circle id="pawn0" cx="820" cy="843" r="14" fill="#C0392B" stroke="#FF9090" stroke-width="2.5" filter="url(#shadow)"/>
-      <text id="pawn0t" x="820" y="849" text-anchor="middle" font-size="13">🧑</text>
+      <use id="pawn0t" href="#pawnIcon" x="810.5" y="833.5" width="19" height="19" fill="#fff"/>
       <circle id="pawn1" cx="843" cy="820" r="14" fill="#1A5276" stroke="#85C1E9" stroke-width="2.5" filter="url(#shadow)"/>
-      <text id="pawn1t" x="843" y="826" text-anchor="middle" font-size="13">👩</text>
+      <use id="pawn1t" href="#pawnIcon" x="833.5" y="810.5" width="19" height="19" fill="#fff"/>
       <circle id="pawn2" cx="856" cy="856" r="14" fill="#1E8449" stroke="#90E898" stroke-width="2.5" filter="url(#shadow)"/>
-      <text id="pawn2t" x="856" y="862" text-anchor="middle" font-size="13">👦</text>
+      <use id="pawn2t" href="#pawnIcon" x="846.5" y="846.5" width="19" height="19" fill="#fff"/>
+      <circle id="pawn3" cx="820" cy="856" r="14" fill="#7D3C98" stroke="#D8B8F0" stroke-width="2.5" filter="url(#shadow)"/>
+      <use id="pawn3t" href="#pawnIcon" x="810.5" y="846.5" width="19" height="19" fill="#fff"/>
+      <circle id="pawn4" cx="856" cy="820" r="14" fill="#CA6F1E" stroke="#F0C090" stroke-width="2.5" filter="url(#shadow)"/>
+      <use id="pawn4t" href="#pawnIcon" x="846.5" y="810.5" width="19" height="19" fill="#fff"/>
+      <circle id="pawn5" cx="800" cy="800" r="14" fill="#148F77" stroke="#90E8D8" stroke-width="2.5" filter="url(#shadow)"/>
+      <use id="pawn5t" href="#pawnIcon" x="790.5" y="790.5" width="19" height="19" fill="#fff"/>
 
       </svg>
     </div>
   </main>
+
+  <!-- PANEL DERECHO: DADOS + ACCIONES + REGISTRO -->
+  <aside class="side-panel right-panel">
+    <h3 class="panel-title">Dados</h3>
+    <div class="dice-area">
+      <button class="die-btn" id="die1" onclick="rollDice()"></button>
+      <button class="die-btn" id="die2" onclick="rollDice()"></button>
+    </div>
+    <div class="dice-result" id="diceResult">Presiona un dado para tirar</div>
+    <button class="roll-btn" id="rollBtn" onclick="rollDice()"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-dice"/></svg> Tirar Dados</button>
+
+    <div class="panel-sep"></div>
+
+    <!-- LOG -->
+    <h3 class="panel-title">Registro</h3>
+    <div class="game-log" id="gameLog">
+      <p class="log-entry"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-play"/></svg> Esperando inicio de partida…</p>
+    </div>
+  </aside>
 
 </div><!-- end game-layout -->
 
@@ -888,33 +975,33 @@
 <footer class="footer">
   <div class="footer-grid">
     <div class="footer-brand">
-      <span class="footer-cross">✚</span>
+      <span class="footer-cross"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-cross"/></svg></span>
       <span class="footer-logo">MEDICOPOLIS</span>
       <p class="footer-tagline">Juego Educativo sobre<br>Enfermedades Crónicas No Transmisibles</p>
     </div>
     <div class="footer-section">
       <h4>Contáctanos</h4>
       <ul>
-        <li>📞 <a href="tel:+593958605284">+593 95 860 5284</a></li>
-        <li>📱 <a href="https://wa.me/593958605284">WhatsApp</a></li>
-        <li>✉️ <a href="mailto:medicopoliscuenca@gmail.com">medicopoliscuenca@gmail.com</a></li>
+        <li><svg class="icon"><use href="assets/images/icons/icons.svg#ic-phone"/></svg> <a href="tel:+593958605284">+593 95 860 5284</a></li>
+        <li><svg class="icon"><use href="assets/images/icons/icons.svg#ic-whatsapp"/></svg> <a href="https://wa.me/593958605284">WhatsApp</a></li>
+        <li><svg class="icon"><use href="assets/images/icons/icons.svg#ic-mail"/></svg> <a href="mailto:medicopoliscuenca@gmail.com">medicopoliscuenca@gmail.com</a></li>
       </ul>
     </div>
     <div class="footer-section">
       <h4>Ubicación</h4>
       <ul>
-        <li>📍 Cuenca, Azuay, Ecuador</li>
-        <li>🕘 Lun – Vie: 08:00 – 17:00</li>
-        <li>🌐 <a href="https://pagina-web-medicopolis.vercel.app/index.html">www.medicopolis.edu.ec</a></li>
+        <li><svg class="icon"><use href="assets/images/icons/icons.svg#ic-pin"/></svg> Cuenca, Azuay, Ecuador</li>
+        <li><svg class="icon"><use href="assets/images/icons/icons.svg#ic-clock"/></svg> Lun – Vie: 08:00 – 17:00</li>
+        <li><svg class="icon"><use href="assets/images/icons/icons.svg#ic-globe"/></svg> <a href="https://pagina-web-medicopolis.vercel.app/index.html">www.medicopolis.edu.ec</a></li>
       </ul>
     </div>
     <div class="footer-section">
       <h4>Síguenos</h4>
       <ul class="footer-social">
-        <li><a href="https://www.facebook.com/andy.otg/">📘 Facebook</a></li>
-        <li><a href="https://www.instagram.com/andy.otg/">📸 Instagram</a></li>
-        <li><a href="https://www.youtube.com/@andyLaunchVision">▶️ YouTube</a></li>
-        <li><a href="https://github.com/andyortega07/PaginaWebMEDICOPOLIS">💼 GitHub</a></li>
+        <li><a href="https://www.facebook.com/andy.otg/"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-facebook"/></svg> Facebook</a></li>
+        <li><a href="https://www.instagram.com/andy.otg/"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-instagram"/></svg> Instagram</a></li>
+        <li><a href="https://www.youtube.com/@andyLaunchVision"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-youtube"/></svg> YouTube</a></li>
+        <li><a href="https://github.com/andyortega07/PaginaWebMEDICOPOLIS"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-github"/></svg> GitHub</a></li>
       </ul>
     </div>
   </div>
@@ -926,7 +1013,7 @@
 <!-- ══════ MODAL: COMPRAR PROPIEDAD ══════ -->
 <div class="modal-overlay hidden" id="buyModal">
   <div class="modal-box">
-    <h3 class="modal-title" id="buyTitle">🏷 Propiedad</h3>
+    <h3 class="modal-title" id="buyTitle"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-hospital"/></svg> Propiedad</h3>
     <p class="modal-cat" id="buyCat">Categoría</p>
     <p class="modal-desc" id="buyDesc">Descripción</p>
     <div class="modal-price-row">
@@ -935,8 +1022,8 @@
     </div>
     <p class="modal-money" id="buyMoney">Tu dinero: $0</p>
     <div class="modal-actions">
-      <button class="modal-btn modal-btn-primary" id="buyConfirmBtn" onclick="confirmBuy()">✅ Comprar</button>
-      <button class="modal-btn modal-btn-secondary" onclick="declineBuy()">🚫 No comprar</button>
+      <button class="modal-btn modal-btn-primary" id="buyConfirmBtn" onclick="confirmBuy()"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-check"/></svg> Comprar</button>
+      <button class="modal-btn modal-btn-secondary" onclick="declineBuy()"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-alert"/></svg> No comprar</button>
     </div>
   </div>
 </div>
@@ -944,12 +1031,12 @@
 <!-- ══════ MODAL: PREGUNTA ECNT ══════ -->
 <div class="modal-overlay hidden" id="triviaModal">
   <div class="modal-box">
-    <h3 class="modal-title">❓ Pregunta ECNT</h3>
+    <h3 class="modal-title"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-question"/></svg> Pregunta ECNT</h3>
     <p class="modal-desc" id="triviaQ">Pregunta…</p>
     <div class="trivia-opts" id="triviaOpts"></div>
     <p class="trivia-result" id="triviaResult"></p>
     <div class="modal-actions">
-      <button class="modal-btn modal-btn-secondary" id="triviaHelpBtn" onclick="useStudentHelp()" style="display:none;">🎓 Pedir ayuda (−3 Estudiantes)</button>
+      <button class="modal-btn modal-btn-secondary" id="triviaHelpBtn" onclick="useStudentHelp()" style="display:none;"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-grad"/></svg> Pedir ayuda (−3 Estudiantes)</button>
       <button class="modal-btn modal-btn-primary hidden" id="triviaCloseBtn" onclick="closeTriviaModal()">Continuar</button>
     </div>
   </div>
@@ -958,10 +1045,10 @@
 <!-- ══════ MODAL: CONSTRUCCIONES ══════ -->
 <div class="modal-overlay hidden" id="buildModal">
   <div class="modal-box modal-box-wide">
-    <h3 class="modal-title">🏗 Centro de Construcción</h3>
+    <h3 class="modal-title"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-crane"/></svg> Centro de Construcción</h3>
     <p class="modal-desc">Construye Consultorio → Clínica → Hospital en cada categoría donde poseas todas las propiedades. Cada nivel aumenta la renta que cobras y suma Estudiantes de Enfermería.</p>
     <div id="buildGroups"></div>
-    <p class="modal-money" id="buildStudentsInfo">🎓 Estudiantes: 0</p>
+    <p class="modal-money" id="buildStudentsInfo"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-grad"/></svg> Estudiantes: 0</p>
     <div class="modal-actions">
       <button class="modal-btn modal-btn-primary" onclick="closeBuildModal()">Cerrar</button>
     </div>
