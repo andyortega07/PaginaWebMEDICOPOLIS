@@ -418,9 +418,13 @@ const state = {
     onco:     zeros6(),
   },
   tSaludTurn:  zeros6(),
-  tRiesgoTurn: zeros6(),
+  tRiesgoTurn: zeros6(),   // riesgo ACUMULADO (ya no se reinicia cada turno)
+  skipTurns:   zeros6(),   // turnos que perderá el jugador por riesgo acumulado
   rolling:      false,
   uciTurns:    zeros6(),
+  bankrupt:    [false, false, false, false, false, false],
+  doublesStreak: zeros6(),
+  gameOver:    false,
   awaitingInput: false,          // bloquea nextTurn mientras hay un modal abierto
   pendingSq:   null,
   buildDiscount: false,
@@ -455,6 +459,7 @@ function applyPlayerCount(n) {
 }
 
 function startGame(n) {
+  gameStarted = true;
   applyPlayerCount(n);
   $('setupOverlay').classList.add('hidden');
   loadLoginPlayer();
@@ -464,6 +469,112 @@ function startGame(n) {
   addLog(`🎮 ¡Juego iniciado con ${n} jugadores! Turno: ${NAMES[0]}`);
   addLog(`💡 Pasa el cursor sobre cada casilla para ver información educativa`, 'good');
   addLog(`🏗 Usa el botón "Construir" o cae en el Centro de Construcción para edificar`, 'good');
+  saveGameState();
+}
+
+function chooseNewGame(n) {
+  clearGameState();
+  startGame(n);
+}
+
+/* ══════════════════════════════════════════════
+   PARTIDA GUARDADA (localStorage)
+   Permite continuar donde quedaste si recargas o
+   cierras el navegador por accidente.
+══════════════════════════════════════════════ */
+const SAVE_KEY = 'medicopolisSave';
+let gameStarted = false; // evita que el auto-guardado pise una partida guardada antes de elegir
+
+function saveGameState() {
+  if (!gameStarted) return;
+  try {
+    const payload = { numPlayers, NAMES, state, savedAt: Date.now() };
+    localStorage.setItem(SAVE_KEY, JSON.stringify(payload));
+  } catch (e) {
+    // localStorage puede fallar en modo privado — el juego sigue funcionando igual
+  }
+}
+
+function loadGameState() {
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch (e) {
+    return null;
+  }
+}
+
+function clearGameState() {
+  try { localStorage.removeItem(SAVE_KEY); } catch (e) {}
+}
+
+function resumeGame() {
+  const saved = loadGameState();
+  if (!saved) return;
+  gameStarted = true;
+
+  numPlayers = saved.numPlayers;
+  NAMES = saved.NAMES;
+  Object.assign(state, saved.state);
+
+  applyPlayerCount(numPlayers);
+  $('setupOverlay').classList.add('hidden');
+  for (let i = 0; i < numPlayers; i++) {
+    const nameEl = document.querySelector(`#p${i}card .player-name`);
+    if (nameEl) nameEl.textContent = NAMES[i];
+  }
+  refreshAllOwnedVisuals();
+  initPawns();
+  updateTurnUI();
+  updateMoneyUI();
+  const savedDate = new Date(saved.savedAt || Date.now());
+  addLog(`💾 Partida restaurada (guardada ${savedDate.toLocaleTimeString('es-EC', { hour: '2-digit', minute: '2-digit' })}) — Turno: ${NAMES[state.turn]}`, 'good');
+  syncUciButton();
+}
+
+function startNewGame() {
+  clearGameState();
+  location.reload();
+}
+
+function confirmResetGame() {
+  if (confirm('¿Reiniciar la partida? Se perderá todo el progreso actual.')) {
+    startNewGame();
+  }
+}
+
+/* Marca visualmente las propiedades que ya tienen dueño al restaurar una partida */
+function refreshAllOwnedVisuals() {
+  Object.keys(state.owners).forEach(sq => {
+    markSquareOwned(sq, state.owners[sq]);
+  });
+  for (let i = 0; i < numPlayers; i++) {
+    if (state.bankrupt[i]) {
+      const card = $('p' + i + 'card');
+      if (card) card.classList.add('bankrupt');
+    }
+  }
+}
+
+function markSquareOwned(sq, playerIdx) {
+  const g = document.getElementById('sq' + sq);
+  if (!g) return;
+  const rect = g.querySelector('rect');
+  if (!rect) return;
+  rect.setAttribute('stroke', COLORS[playerIdx]);
+  rect.setAttribute('stroke-width', '4');
+  rect.classList.add('owned-square');
+}
+
+function unmarkSquareOwned(sq) {
+  const g = document.getElementById('sq' + sq);
+  if (!g) return;
+  const rect = g.querySelector('rect');
+  if (!rect) return;
+  rect.removeAttribute('stroke');
+  rect.removeAttribute('stroke-width');
+  rect.classList.remove('owned-square');
 }
 
 /* ══════════════════════════════════════════════
@@ -505,6 +616,7 @@ function updateMoneyUI() {
     $('p' + i + 'money').textContent = '$' + Math.max(0, state.money[i]).toLocaleString();
     $('p' + i + 'props').textContent = `Props: ${state.props[i]} · 🎓 ${state.students[i]}`;
   }
+  saveGameState();
 }
 
 function updateBuildUI() {
@@ -534,6 +646,8 @@ function updateTurnUI() {
     }
   }
   updateBuildUI();
+  syncUciButton();
+  saveGameState();
 }
 
 /* ── POSICIÓN SVG DE UNA FICHA ── */
@@ -652,7 +766,11 @@ function resolveSquare(playerIdx, sq) {
     state.tSaludTurn[p]++;
     addLog(`💚 ${n} saca Tarjeta Salud — cobra $${bonus}`, 'good');
     if (Math.random() < 0.3) addStudents(p, 1);
-    checkRiesgoProgress(p);
+    if (state.tRiesgoTurn[p] > 0) {
+      state.tRiesgoTurn[p]--;
+      addLog(`🌿 El hábito saludable de ${n} reduce su riesgo acumulado (ahora: ${state.tRiesgoTurn[p]})`, 'good');
+    }
+    updateBuildUI();
     updateMoneyUI();
     return;
   }
@@ -662,9 +780,10 @@ function resolveSquare(playerIdx, sq) {
     const fine = [50, 75, 100][Math.floor(Math.random() * 3)];
     state.money[p] -= fine;
     state.tRiesgoTurn[p]++;
-    addLog(`⚠️ ${n} saca Tarjeta Riesgo — paga $${fine} (total turno: ${state.tRiesgoTurn[p]})`, 'alert');
+    addLog(`⚠️ ${n} saca Tarjeta Riesgo — paga $${fine} (riesgo acumulado: ${state.tRiesgoTurn[p]})`, 'alert');
     checkRiesgoProgress(p);
     updateMoneyUI();
+    checkBankruptcy(p);
     return;
   }
 
@@ -715,6 +834,7 @@ function resolveSquare(playerIdx, sq) {
     const discTxt = disc > 0 ? ` [−${disc}% por Estudiantes]` : '';
     addLog(`🏠 ${n} cae en ${d.name} de ${NAMES[owner]} — paga $${rent}${multTxt}${discTxt}`, 'highlight');
     updateMoneyUI();
+    checkBankruptcy(p);
     return;
   }
 
@@ -746,6 +866,7 @@ function confirmBuy() {
   state.money[p] -= d.price;
   state.owners[sq] = p;
   state.props[p]++;
+  markSquareOwned(sq, p);
   addLog(`✅ ${NAMES[p]} compra ${d.name} por $${d.price}`, 'good');
   updateMoneyUI();
   closeBuyModal();
@@ -833,6 +954,7 @@ function answerTrivia(idx) {
     addLog(`❓ ${NAMES[p]} responde mal — paga $${t.penalty}`, 'alert');
   }
   updateMoneyUI();
+  checkBankruptcy(p);
   $('triviaHelpBtn').style.display = 'none';
   $('triviaCloseBtn').classList.remove('hidden');
 }
@@ -930,18 +1052,20 @@ function checkRiesgoProgress(playerIdx) {
   const riesgo = state.tRiesgoTurn[playerIdx];
 
   if (riesgo === 3) {
-    addLog(`💀 ${NAMES[playerIdx]} acumula 3 Tarjetas Riesgo — pierde un turno adicional`, 'alert');
+    state.skipTurns[playerIdx] += 1;
+    addLog(`💀 ${NAMES[playerIdx]} acumula 3 puntos de riesgo — pierde su próximo turno`, 'alert');
   }
   if (riesgo >= 5) {
+    state.tRiesgoTurn[playerIdx] = 0;
     state.positions[playerIdx] = 20;
     const usedStudents = state.students[playerIdx] >= 5;
     if (usedStudents) {
       state.students[playerIdx] -= 5;
       state.uciTurns[playerIdx] = 1;
-      addLog(`🚨 ¡${NAMES[playerIdx]} acumula 5 Tarjetas Riesgo — va a UCI, pero usa Estudiantes y solo pierde 1 turno!`, 'alert');
+      addLog(`🚨 ¡${NAMES[playerIdx]} acumula 5 puntos de riesgo — va a UCI, pero usa Estudiantes y solo pierde 1 turno!`, 'alert');
     } else {
       state.uciTurns[playerIdx] = 2;
-      addLog(`🚨 ¡${NAMES[playerIdx]} acumula 5 Tarjetas Riesgo — va DIRECTO a UCI!`, 'alert');
+      addLog(`🚨 ¡${NAMES[playerIdx]} acumula 5 puntos de riesgo — va DIRECTO a UCI!`, 'alert');
     }
     movePawnSvg(playerIdx);
   }
@@ -951,6 +1075,14 @@ function checkRiesgoProgress(playerIdx) {
 /* ── TIRAR DADOS ── */
 function rollDice() {
   if (state.rolling || state.awaitingInput) return;
+
+  // Turno perdido por riesgo acumulado
+  if (state.skipTurns[state.turn] > 0) {
+    state.skipTurns[state.turn]--;
+    addLog(`💤 ${NAMES[state.turn]} pierde este turno por su riesgo acumulado`, 'alert');
+    nextTurn();
+    return;
+  }
 
   // Verificar si está en UCI
   if (state.uciTurns[state.turn] > 0) {
@@ -993,7 +1125,22 @@ function rollDice() {
     updateMoneyUI();
 
     if (!state.awaitingInput) {
-      nextTurn();
+      if (d1 === d2 && !state.bankrupt[state.turn] && !state.gameOver) {
+        state.doublesStreak[state.turn]++;
+        if (state.doublesStreak[state.turn] >= 3) {
+          state.doublesStreak[state.turn] = 0;
+          state.uciTurns[state.turn] = 2;
+          addLog(`🚨 ${NAMES[state.turn]} saca dobles 3 veces seguidas — ¡va directo a UCI!`, 'alert');
+          nextTurn();
+        } else {
+          addLog(`🎲 ¡${NAMES[state.turn]} sacó dobles (${d1}-${d1})! Vuelve a tirar.`, 'highlight');
+          state.rolling = false;
+          $('rollBtn').disabled = false;
+        }
+      } else {
+        state.doublesStreak[state.turn] = 0;
+        nextTurn();
+      }
     } else {
       // El turno continuará cuando se cierre el modal correspondiente
       state.rolling = false;
@@ -1005,15 +1152,93 @@ function nextTurn() {
   // Limpiar tarjetas del turno anterior
   const prev = state.turn;
   state.tSaludTurn[prev]  = 0;
-  state.tRiesgoTurn[prev] = 0;
 
-  state.turn = (state.turn + 1) % numPlayers;
+  if (state.gameOver) return;
+
+  // Avanza al siguiente jugador vivo (salta a los que están en bancarrota)
+  let next = state.turn;
+  for (let i = 0; i < numPlayers; i++) {
+    next = (next + 1) % numPlayers;
+    if (!state.bankrupt[next]) break;
+  }
+  state.turn = next;
   updateTurnUI();
   addLog(`🎯 Turno de ${NAMES[state.turn]}`);
 
   state.rolling = false;
   const btn = $('rollBtn');
   btn.disabled = false;
+}
+
+/* ══════════════════════════════════════════════
+   BANCARROTA Y CONDICIÓN DE VICTORIA
+══════════════════════════════════════════════ */
+function checkBankruptcy(p) {
+  if (state.bankrupt[p] || state.money[p] >= 0) return;
+  state.bankrupt[p] = true;
+  state.money[p] = 0;
+
+  // Libera todas sus propiedades: vuelven al banco, sin dueño
+  Object.keys(state.owners).forEach(sq => {
+    if (state.owners[sq] === p) {
+      delete state.owners[sq];
+      unmarkSquareOwned(sq);
+    }
+  });
+  state.props[p] = 0;
+  Object.keys(state.groupLevel).forEach(k => { state.groupLevel[k][p] = 0; });
+
+  const card = $('p' + p + 'card');
+  if (card) card.classList.add('bankrupt');
+
+  addLog(`💀 ${NAMES[p]} entra en BANCARROTA y queda fuera de la partida — sus propiedades vuelven al banco`, 'alert');
+  updateMoneyUI();
+  checkWinCondition();
+}
+
+function checkWinCondition() {
+  const alive = [];
+  for (let i = 0; i < numPlayers; i++) if (!state.bankrupt[i]) alive.push(i);
+  if (alive.length <= 1 && !state.gameOver) {
+    state.gameOver = true;
+    const winnerName = alive.length === 1 ? NAMES[alive[0]] : 'Nadie (empate)';
+    addLog(`🏆 ¡Partida terminada! Gana ${winnerName}`, 'highlight');
+    $('rollBtn').disabled = true;
+    const uciBtn = $('uciPayBtn');
+    if (uciBtn) uciBtn.style.display = 'none';
+    $('winTitle').textContent = alive.length === 1 ? `¡Gana ${winnerName}!` : '¡Partida terminada!';
+    $('winSub').textContent = alive.length === 1
+      ? `${winnerName} fue el último jugador en pie. ¡Felicidades!`
+      : 'Todos los jugadores restantes quedaron en bancarrota a la vez.';
+    $('winModal').classList.remove('hidden');
+  }
+}
+
+/* ══════════════════════════════════════════════
+   UCI: pagar $150 para salir de inmediato
+══════════════════════════════════════════════ */
+function payUCI() {
+  const p = state.turn;
+  if (state.uciTurns[p] <= 0 || state.money[p] < 150 || state.gameOver) return;
+  state.money[p] -= 150;
+  state.uciTurns[p] = 0;
+  addLog(`💳 ${NAMES[p]} paga $150 y sale de inmediato de UCI`, 'good');
+  updateMoneyUI();
+  checkBankruptcy(p);
+  syncUciButton();
+}
+
+function syncUciButton() {
+  const btn = $('uciPayBtn');
+  if (!btn) return;
+  const p = state.turn;
+  const inUci = state.uciTurns[p] > 0;
+  btn.style.display = inUci && !state.gameOver ? '' : 'none';
+  btn.disabled = !(inUci && state.money[p] >= 150);
+  const label = inUci
+    ? `Pagar $150 y salir de UCI (te quedan ${state.uciTurns[p]} turno${state.uciTurns[p] === 1 ? '' : 's'})`
+    : 'Pagar $150 y salir de UCI';
+  btn.innerHTML = '<svg class="icon"><use href="assets/images/icons/icons.svg#ic-coins"/></svg> ' + label;
 }
 
 /* ══════════════════════════════════════════════
@@ -1106,5 +1331,19 @@ document.querySelectorAll('.sq-hover').forEach(el => {
    participantes en el overlay (ver startGame() más arriba).
    Aquí solo dejamos el tablero listo visualmente. */
 applyPlayerCount(numPlayers);
+$('die1').innerHTML = dieFaceSVG(1);
+$('die2').innerHTML = dieFaceSVG(1);
 updateTurnUI();
 updateMoneyUI();
+
+/* Si hay una partida guardada de una sesión anterior, ofrece continuarla */
+(function checkForSavedGame() {
+  const saved = loadGameState();
+  if (!saved || !saved.state) return;
+  const aliveCount = saved.NAMES.slice(0, saved.numPlayers).filter((_, i) => !saved.state.bankrupt[i]).length;
+  if (saved.state.gameOver || aliveCount <= 1) { clearGameState(); return; }
+  $('resumeBlock').classList.remove('hidden');
+  const when = new Date(saved.savedAt || Date.now());
+  $('resumeInfo').textContent =
+    `${saved.numPlayers} jugadores · Turno de ${saved.NAMES[saved.state.turn]} · guardada ${when.toLocaleDateString('es-EC')} ${when.toLocaleTimeString('es-EC', { hour: '2-digit', minute: '2-digit' })}`;
+})();

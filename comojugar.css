@@ -7,7 +7,7 @@
   max-width: var(--page-max);
   text-align: center;
   padding: 30px 20px 16px;
-  animation: fadeInDown 0.7s ease both;
+  animation: fadeInDown 0.35s ease both;
 }
 .page-header h1 {
   color: var(--med-blue-dark);
@@ -22,7 +22,7 @@
   width: 100%;
   max-width: var(--page-max);
   margin-bottom: 18px;
-  animation: fadeInUp 0.7s ease 0.15s both;
+  animation: fadeInUp 0.35s ease 0.08s both;
 }
 
 /* Objetivo */
@@ -74,16 +74,35 @@
   border-radius: 12px;
   padding: 16px 22px;
   transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
-  animation: slideInLeft 0.5s ease both;
+  animation: slideInLeft 0.3s ease both;
 }
-.step-item:nth-child(1) { animation-delay: 0.05s; }
-.step-item:nth-child(2) { animation-delay: 0.10s; }
-.step-item:nth-child(3) { animation-delay: 0.15s; }
-.step-item:nth-child(4) { animation-delay: 0.20s; }
-.step-item:nth-child(5) { animation-delay: 0.25s; }
-.step-item:nth-child(6) { animation-delay: 0.30s; }
-.step-item:nth-child(7) { animation-delay: 0.35s; }
-.step-item:nth-child(8) { animation-delay: 0.40s; }
+.step-item:nth-child(1) { animation-delay: 0.025s; }
+.step-item:nth-child(2) { animation-delay: 0.05s; }
+.step-item:nth-child(3) { animation-delay: 0.075s; }
+.step-item:nth-child(4) { animation-delay: 0.1s; }
+.step-item:nth-child(5) { animation-delay: 0.125s; }
+.step-item:nth-child(6) { animation-delay: 0.15s; }
+.step-item:nth-child(7) { animation-delay: 0.175s; }
+.step-item:nth-child(8) { animation-delay: 0.2s; }
+.step-item:nth-child(9) { animation-delay: 0.225s; }
+
+.step-icon {
+  width: 38px; height: 38px;
+  min-width: 38px;
+  border-radius: 10px;
+  background: var(--med-blue-light);
+  color: var(--med-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.25s, color 0.25s, transform 0.25s;
+}
+.step-icon .icon { width: 20px; height: 20px; }
+.step-item:hover .step-icon {
+  background: var(--med-blue);
+  color: #fff;
+  transform: scale(1.08) rotate(-4deg);
+}
 
 .step-item:hover {
   transform: translateX(6px);

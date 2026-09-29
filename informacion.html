@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MEDICOPOLIS — Información</title>
+  <link rel="stylesheet" href="shared.css">
+  <link rel="stylesheet" href="informacion.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="index.html" class="nav-brand">
+    <span class="nav-cross"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-cross"/></svg></span>
+    <span class="nav-title">MEDICOPOLIS</span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="informacion.html" class="active">Información</a></li>
+    <li><a href="tablero.html">Tablero</a></li>
+  </ul>
+  <button class="nav-hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-menu"/></svg></button>
+</nav>
+
+<!-- PAGE HEADER -->
+<header class="page-header">
+  <h1>Información del Juego</h1>
+  <p>Reglas, categorías médicas y casillas especiales — todo en un solo lugar</p>
+</header>
+
+<!-- TABS -->
+<div class="info-tabs">
+  <button class="info-tab active" id="tabBtn-reglas" onclick="showInfoTab('reglas')">
+    <svg class="icon"><use href="assets/images/icons/icons.svg#ic-dice"/></svg> Cómo Jugar
+  </button>
+  <button class="info-tab" id="tabBtn-categorias" onclick="showInfoTab('categorias')">
+    <svg class="icon"><use href="assets/images/icons/icons.svg#ic-heart"/></svg> Categorías Médicas
+  </button>
+</div>
+
+<!-- ══════════════════════ TAB: CÓMO JUGAR ══════════════════════ -->
+<div id="tab-reglas" class="info-panel">
+
+  <!-- OBJETIVO -->
+  <section class="cj-section">
+    <div class="cj-card objetivo">
+      <div class="cj-icon"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-trophy"/></svg></div>
+      <div class="cj-text">
+        <h2>Objetivo del Juego</h2>
+        <p>El objetivo de MEDICOPOLIS es ser el último jugador en pie. Compra propiedades médicas, cobra renta a tus rivales y llévalos a la bancarrota mientras aprendes sobre enfermedades crónicas no transmisibles.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PASOS -->
+  <section class="cj-section">
+    <h2 class="section-title">Pasos para Jugar</h2>
+    <div class="steps-list">
+      <div class="step-item">
+        <span class="step-icon"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-dice"/></svg></span>
+        <div class="step-num">01</div>
+        <div class="step-body">
+          <h3>Preparación</h3>
+          <p>Elige entre <strong>2 y 6 jugadores</strong> al abrir el tablero. Cada uno recibe <strong>$1,500</strong> de capital inicial y coloca su ficha en la casilla <strong>SALIDA</strong>.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <span class="step-icon"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-dice"/></svg></span>
+        <div class="step-num">02</div>
+        <div class="step-body">
+          <h3>Tirar los Dados</h3>
+          <p>En tu turno, lanza los dos dados y avanza tu ficha el número de casillas indicado. Si sacas <strong>dobles</strong>, vuelves a tirar — pero cuidado: 3 dobles seguidos te mandan directo a <strong>UCI</strong>.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <span class="step-icon"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-hospital"/></svg></span>
+        <div class="step-num">03</div>
+        <div class="step-body">
+          <h3>Casillas de Propiedad</h3>
+          <p>Si caes en una propiedad sin dueño, puedes <strong>comprarla</strong>. Si ya tiene dueño, debes <strong>pagar alquiler</strong>. Las casillas de <strong>Bienestar</strong> no se compran: solo cobras dinero por el hábito saludable.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <span class="step-icon"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-question"/></svg></span>
+        <div class="step-num">04</div>
+        <div class="step-body">
+          <h3>Tarjetas y Preguntas Especiales</h3>
+          <p><span class="tag-salud">Tarjeta Salud</span> ×4 en el tablero = beneficio positivo. <span class="tag-riesgo">Tarjeta Riesgo</span> ×4 = penalidad. <span class="tag-pregunta">Pregunta ECNT</span> ×3 = respóndela: si aciertas ganas dinero, si fallas pagas.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <span class="step-icon"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-crane"/></svg></span>
+        <div class="step-num">05</div>
+        <div class="step-body">
+          <h3>Construir: Consultorio → Clínica → Hospital</h3>
+          <p>Solo puedes construir en una categoría si posees <strong>todas</strong> sus propiedades comprables. Se construye desde el botón <strong><svg class="icon"><use href="assets/images/icons/icons.svg#ic-crane"/></svg> Construir</strong> del panel lateral (o con 15% de descuento si caes en el <strong>Centro de Construcción</strong>):</p>
+          <table class="mini-build-table">
+            <tr><td><svg class="icon"><use href="assets/images/icons/icons.svg#ic-building-sm"/></svg> Consultorio</td><td>$150</td><td>Renta ×2</td><td>+2 <svg class="icon"><use href="assets/images/icons/icons.svg#ic-grad"/></svg></td></tr>
+            <tr><td><svg class="icon"><use href="assets/images/icons/icons.svg#ic-hospital"/></svg> Clínica</td><td>$400</td><td>Renta ×3</td><td>+5 <svg class="icon"><use href="assets/images/icons/icons.svg#ic-grad"/></svg></td></tr>
+            <tr><td><svg class="icon"><use href="assets/images/icons/icons.svg#ic-building-lg"/></svg> Hospital</td><td>$900</td><td>Renta ×5</td><td>+12 <svg class="icon"><use href="assets/images/icons/icons.svg#ic-grad"/></svg></td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="step-item">
+        <span class="step-icon"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-grad"/></svg></span>
+        <div class="step-num">06</div>
+        <div class="step-body">
+          <h3>Estudiantes de Enfermería <svg class="icon"><use href="assets/images/icons/icons.svg#ic-grad"/></svg></h3>
+          <p>Cada construcción te da Estudiantes. No son solo un contador: son un recurso que puedes <strong>gastar</strong> durante la partida (ver detalle completo más abajo).</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <span class="step-icon"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-alert"/></svg></span>
+        <div class="step-num">07</div>
+        <div class="step-body">
+          <h3>UCI — Emergencia</h3>
+          <p>Si caes en la casilla <span class="tag-uci">UCI</span>, pierdes <strong>2 turnos</strong> o puedes pagar <strong>$150</strong> desde el botón dedicado para salir inmediatamente. Si tienes 5+ <svg class="icon"><use href="assets/images/icons/icons.svg#ic-grad"/></svg> Estudiantes, puedes usarlos para quedarte solo <strong>1 turno</strong>.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <span class="step-icon"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-play"/></svg></span>
+        <div class="step-num">08</div>
+        <div class="step-body">
+          <h3>Pasar por SALIDA</h3>
+          <p>Cada vez que pases o caigas en la casilla SALIDA, cobras <strong>$200</strong> del banco.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <span class="step-icon"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-trophy"/></svg></span>
+        <div class="step-num">09</div>
+        <div class="step-body">
+          <h3>¡Ganar!</h3>
+          <p>Si tu dinero queda en negativo, entras en <strong>bancarrota</strong> y sales de la partida (tus propiedades vuelven al banco). El juego termina cuando solo queda un jugador en pie — ¡y aparece un modal anunciando al ganador!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SISTEMA DE ESTUDIANTES -->
+  <section class="cj-section">
+    <h2 class="section-title">Sistema de Estudiantes de Enfermería <svg class="icon"><use href="assets/images/icons/icons.svg#ic-grad"/></svg></h2>
+    <div class="cj-card objetivo" style="margin-bottom:18px;">
+      <div class="cj-icon"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-grad"/></svg></div>
+      <div class="cj-text">
+        <h2>¿De dónde salen?</h2>
+        <p>Cada vez que construyes en una categoría completa, ganas Estudiantes: <strong>+2</strong> con el Consultorio, <strong>+5</strong> con la Clínica, <strong>+12</strong> con el Hospital. También puedes ganar +1 ocasionalmente al sacar una Tarjeta Salud (~30% de probabilidad).</p>
+      </div>
+    </div>
+    <div class="estudiantes-grid">
+      <div class="est-card">
+        <div class="est-icon"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-coins"/></svg></div>
+        <h3>Descuento en renta</h3>
+        <p>Por cada <strong>5 <svg class="icon"><use href="assets/images/icons/icons.svg#ic-grad"/></svg></strong> que tengas, pagas <strong>5% menos</strong> de renta cuando caes en propiedad ajena. Máximo 40% de descuento.</p>
+      </div>
+      <div class="est-card">
+        <div class="est-icon"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-question"/></svg></div>
+        <h3>Ayuda en preguntas</h3>
+        <p>Con <strong>3+ <svg class="icon"><use href="assets/images/icons/icons.svg#ic-grad"/></svg></strong> puedes pedir ayuda en una Pregunta ECNT: se eliminan 2 de las 4 opciones antes de responder. Cuesta 3 Estudiantes.</p>
+      </div>
+      <div class="est-card">
+        <div class="est-icon"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-alert"/></svg></div>
+        <h3>Menos tiempo en UCI</h3>
+        <p>Con <strong>5+ <svg class="icon"><use href="assets/images/icons/icons.svg#ic-grad"/></svg></strong> puedes reducir tu estadía en UCI de 2 turnos a solo 1. Cuesta 5 Estudiantes.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TABLA DE RENTAS -->
+  <section class="cj-section">
+    <h2 class="section-title">Tabla de Rentas por Categoría</h2>
+    <p style="color:var(--text-muted); font-size:12.5px; margin-bottom:14px; text-align:center;">La renta base se multiplica según el nivel de construcción del dueño (aplica a todo el grupo).</p>
+    <div class="renta-table-wrap">
+      <table class="renta-table">
+        <thead>
+          <tr>
+            <th>Categoría</th>
+            <th>Renta base</th>
+            <th><svg class="icon"><use href="assets/images/icons/icons.svg#ic-building-sm"/></svg> Consultorio</th>
+            <th><svg class="icon"><use href="assets/images/icons/icons.svg#ic-hospital"/></svg> Clínica</th>
+            <th><svg class="icon"><use href="assets/images/icons/icons.svg#ic-building-lg"/></svg> Hospital</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="row-cardio">
+            <td><svg class="icon"><use href="assets/images/icons/icons.svg#ic-heart"/></svg> Cardiología</td>
+            <td>$60–$180</td><td>×2</td><td>×3</td><td>×5</td>
+          </tr>
+          <tr class="row-nutri">
+            <td><svg class="icon"><use href="assets/images/icons/icons.svg#ic-leaf"/></svg> Nutrición</td>
+            <td>$45–$55</td><td>×2</td><td>×3</td><td>×5</td>
+          </tr>
+          <tr class="row-diab">
+            <td><svg class="icon"><use href="assets/images/icons/icons.svg#ic-drop"/></svg> Diabetes</td>
+            <td>$60–$80</td><td>×2</td><td>×3</td><td>×5</td>
+          </tr>
+          <tr class="row-resp">
+            <td><svg class="icon"><use href="assets/images/icons/icons.svg#ic-lungs"/></svg> Pulmonar</td>
+            <td>$90–$180</td><td>×2</td><td>×3</td><td>×5</td>
+          </tr>
+          <tr class="row-onco">
+            <td><svg class="icon"><use href="assets/images/icons/icons.svg#ic-micro"/></svg> Oncología</td>
+            <td>$180–$300</td><td>×2</td><td>×3</td><td>×5</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════════════════ TAB: CATEGORÍAS ══════════════════════ -->
+<div id="tab-categorias" class="info-panel hidden">
+
+  <section class="cat-section">
+
+    <div class="cat-card cardio">
+      <div class="cat-header">
+        <span class="cat-emoji"><img src="assets/images/categories/cardio.svg" alt="Cardiología"></span>
+        <h2>Cardiología</h2>
+        <span class="cat-badge">C-1 a C-5</span>
+      </div>
+      <div class="cat-body">
+        <p class="cat-desc">Las enfermedades cardiovasculares son la principal causa de muerte a nivel mundial. En MEDICOPOLIS aprendes sobre sus factores de riesgo y prevención.</p>
+        <div class="cat-props">
+          <div class="cat-prop is-buy"><span class="prop-code">C-1</span><span class="prop-name">Hipertensión Arterial</span><span class="prop-price">Compra $300 · Renta $60</span></div>
+          <div class="cat-prop is-buy"><span class="prop-code">C-2</span><span class="prop-name">Infarto Agudo de Miocardio</span><span class="prop-price">Compra $750 · Renta $150</span></div>
+          <div class="cat-prop is-well"><span class="prop-code">C-3</span><span class="prop-name">Actividad Física y Ejercicio</span><span class="prop-price">Bienestar · Cobra $70</span></div>
+          <div class="cat-prop is-well"><span class="prop-code">C-4</span><span class="prop-name">Control de Colesterol</span><span class="prop-price">Bienestar · Cobra $90</span></div>
+          <div class="cat-prop is-buy"><span class="prop-code">C-5</span><span class="prop-name">Accidente Cerebrovascular (ACV)</span><span class="prop-price">Compra $900 · Renta $180</span></div>
+        </div>
+        <div class="cat-fact">
+          <span class="fact-icon"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-bulb"/></svg></span>
+          <p>Las cardiopatías son la mayor causa de muerte por ECNT: más de 19 millones de muertes al año (OMS, 2024).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-card nutri">
+      <div class="cat-header">
+        <span class="cat-emoji"><img src="assets/images/categories/nutri.svg" alt="Nutrición"></span>
+        <h2>Nutrición</h2>
+        <span class="cat-badge">N-1 a N-6</span>
+      </div>
+      <div class="cat-body">
+        <p class="cat-desc">Una alimentación equilibrada es la base de la salud. Esta categoría aborda desde la obesidad hasta los ultraprocesados y la hidratación.</p>
+        <div class="cat-props">
+          <div class="cat-prop is-well"><span class="prop-code">N-1</span><span class="prop-name">Alimentación Saludable</span><span class="prop-price">Bienestar · Cobra $40</span></div>
+          <div class="cat-prop is-buy"><span class="prop-code">N-2</span><span class="prop-name">Obesidad</span><span class="prop-price">Compra $250 · Renta $50</span></div>
+          <div class="cat-prop is-well"><span class="prop-code">N-3</span><span class="prop-name">Dieta Saludable (DASH)</span><span class="prop-price">Bienestar · Cobra $65</span></div>
+          <div class="cat-prop is-buy"><span class="prop-code">N-4</span><span class="prop-name">Deficiencia de Micronutrientes</span><span class="prop-price">Compra $225 · Renta $45</span></div>
+          <div class="cat-prop is-buy"><span class="prop-code">N-5</span><span class="prop-name">Alimentos Ultraprocesados</span><span class="prop-price">Compra $275 · Renta $55</span></div>
+          <div class="cat-prop is-well"><span class="prop-code">N-6</span><span class="prop-name">Hidratación y Función Renal</span><span class="prop-price">Bienestar · Cobra $50</span></div>
+        </div>
+        <div class="cat-fact">
+          <span class="fact-icon"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-bulb"/></svg></span>
+          <p>La obesidad en adultos casi se ha triplicado desde 1975 a nivel mundial (OMS, 2024).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-card diab">
+      <div class="cat-header">
+        <span class="cat-emoji"><img src="assets/images/categories/diab.svg" alt="Diabetes"></span>
+        <h2>Diabetes</h2>
+        <span class="cat-badge">D-1 a D-4</span>
+      </div>
+      <div class="cat-body">
+        <p class="cat-desc">La diabetes afecta a cientos de millones de personas. Aprende sobre sus tipos, la glucemia y el tratamiento con insulina.</p>
+        <div class="cat-props">
+          <div class="cat-prop is-buy"><span class="prop-code">D-1</span><span class="prop-name">Diabetes Tipo 2</span><span class="prop-price">Compra $300 · Renta $60</span></div>
+          <div class="cat-prop is-well"><span class="prop-code">D-2</span><span class="prop-name">Automonitoreo Glucémico</span><span class="prop-price">Bienestar · Cobra $45</span></div>
+          <div class="cat-prop is-buy"><span class="prop-code">D-3</span><span class="prop-name">Insulinoterapia</span><span class="prop-price">Compra $400 · Renta $80</span></div>
+          <div class="cat-prop is-well"><span class="prop-code">D-4</span><span class="prop-name">Prevención Resistencia a la Insulina</span><span class="prop-price">Bienestar · Cobra $70</span></div>
+        </div>
+        <div class="cat-fact">
+          <span class="fact-icon"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-bulb"/></svg></span>
+          <p>589 millones de adultos viven con diabetes en el mundo — 1 de cada 9 (IDF Diabetes Atlas, 11.ª ed., 2024).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-card resp">
+      <div class="cat-header">
+        <span class="cat-emoji"><img src="assets/images/categories/resp.svg" alt="Pulmonar"></span>
+        <h2>Pulmonar</h2>
+        <span class="cat-badge">R-1 a R-4</span>
+      </div>
+      <div class="cat-body">
+        <p class="cat-desc">Las enfermedades respiratorias crónicas incluyen el EPOC, el asma y la fibrosis. El tabaquismo es el principal factor de riesgo.</p>
+        <div class="cat-props">
+          <div class="cat-prop is-buy"><span class="prop-code">R-1</span><span class="prop-name">EPOC</span><span class="prop-price">Compra $450 · Renta $90</span></div>
+          <div class="cat-prop is-well"><span class="prop-code">R-2</span><span class="prop-name">Control y Manejo del Asma</span><span class="prop-price">Bienestar · Cobra $55</span></div>
+          <div class="cat-prop is-well"><span class="prop-code">R-3</span><span class="prop-name">Cesación del Tabaquismo</span><span class="prop-price">Bienestar · Cobra $85</span></div>
+          <div class="cat-prop is-buy"><span class="prop-code">R-4</span><span class="prop-name">Fibrosis Pulmonar Idiopática</span><span class="prop-price">Compra $900 · Renta $180</span></div>
+        </div>
+        <div class="cat-fact">
+          <span class="fact-icon"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-bulb"/></svg></span>
+          <p>La EPOC es la 3.ª causa de muerte a nivel mundial: 3.4 millones de muertes en 2023 (OMS).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-card onco">
+      <div class="cat-header">
+        <span class="cat-emoji"><img src="assets/images/categories/onco.svg" alt="Oncología"></span>
+        <h2>Oncología</h2>
+        <span class="cat-badge">O-1 a O-5</span>
+      </div>
+      <div class="cat-body">
+        <p class="cat-desc">La detección temprana salva vidas. Esta categoría cubre desde la prevención hasta el diagnóstico, tratamiento y biología del cáncer.</p>
+        <div class="cat-props">
+          <div class="cat-prop is-well"><span class="prop-code">O-1</span><span class="prop-name">Detección Temprana del Cáncer</span><span class="prop-price">Bienestar · Cobra $110</span></div>
+          <div class="cat-prop is-buy"><span class="prop-code">O-2</span><span class="prop-name">Tratamiento Oncológico</span><span class="prop-price">Compra $1,500 · Renta $300</span></div>
+          <div class="cat-prop is-well"><span class="prop-code">O-3</span><span class="prop-name">Prevención del Cáncer</span><span class="prop-price">Bienestar · Cobra $95</span></div>
+          <div class="cat-prop is-buy"><span class="prop-code">O-4</span><span class="prop-name">Diagnóstico Oncológico</span><span class="prop-price">Compra $900 · Renta $180</span></div>
+          <div class="cat-prop is-buy"><span class="prop-code">O-5</span><span class="prop-name">Biología Molecular del Cáncer</span><span class="prop-price">Compra $900 · Renta $180</span></div>
+        </div>
+        <div class="cat-fact">
+          <span class="fact-icon"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-bulb"/></svg></span>
+          <p>El cáncer causa alrededor de 10 millones de muertes al año en el mundo (OMS, 2024). O-2 es la propiedad más cara de todo el tablero.</p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <section class="legend-strip">
+    <span class="legend-item is-buy"><span class="legend-dot"></span> Propiedad — se compra y genera renta a favor del dueño</span>
+    <span class="legend-item is-well"><span class="legend-dot"></span> Bienestar — no se compra, cobras dinero del banco al caer</span>
+  </section>
+
+  <section class="draw-section">
+    <h2 class="section-title">Tarjetas y Preguntas del Tablero</h2>
+    <div class="draw-grid">
+      <div class="draw-card">
+        <img src="assets/images/cards/salud.svg" alt="Tarjeta Salud" class="draw-img">
+        <div class="draw-body">
+          <h3>Tarjeta Salud <span class="draw-count">×4 en el tablero</span></h3>
+          <p>Al caer en una de estas 4 casillas, cobras <strong>$50, $75 o $100</strong> al azar por un buen hábito de salud. ~30% de probabilidad de sumar +1 Estudiante de Enfermería. Si tenías riesgo acumulado, se reduce en 1.</p>
+        </div>
+      </div>
+      <div class="draw-card">
+        <img src="assets/images/cards/pregunta.svg" alt="Pregunta ECNT" class="draw-img">
+        <div class="draw-body">
+          <h3>Pregunta ECNT <span class="draw-count">×3 en el tablero</span></h3>
+          <p>Responde una pregunta de opción múltiple sobre salud y prevención. Aciertas: ganas <strong>$120</strong>. Fallas: pagas <strong>$60</strong>. Con 3+ Estudiantes puedes eliminar 2 de las 4 opciones antes de responder.</p>
+        </div>
+      </div>
+      <div class="draw-card">
+        <img src="assets/images/cards/riesgo.svg" alt="Tarjeta Riesgo" class="draw-img">
+        <div class="draw-body">
+          <h3>Tarjeta Riesgo <span class="draw-count">×4 en el tablero</span></h3>
+          <p>Pagas <strong>$50, $75 o $100</strong> al azar por un hábito de riesgo. El riesgo se <strong>acumula</strong>: al llegar a 3 pierdes tu próximo turno, y al llegar a 5 vas directo a UCI (a menos que uses 5 Estudiantes para acortarlo a 1 turno).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="special-section">
+    <h2 class="section-title">Casillas Especiales del Tablero</h2>
+    <div class="special-grid">
+      <div class="special-card">
+        <span class="special-icon sp-img"><img src="assets/images/specials/salida.svg" alt="Salida"></span>
+        <h3>Salida</h3>
+        <p>Cobras <strong>$200</strong> cada vez que pasas o caes exactamente aquí.</p>
+      </div>
+      <div class="special-card">
+        <span class="special-icon sp-img"><img src="assets/images/cards/salud.svg" alt="Tarjeta Salud"></span>
+        <h3>Tarjeta Salud <span class="special-count">×4</span></h3>
+        <p>Cobras entre <strong>$50 y $100</strong>. Con suerte, sumas +1 Estudiante de Enfermería.</p>
+      </div>
+      <div class="special-card">
+        <span class="special-icon sp-img"><img src="assets/images/cards/riesgo.svg" alt="Tarjeta Riesgo"></span>
+        <h3>Tarjeta Riesgo <span class="special-count">×4</span></h3>
+        <p>Pagas entre <strong>$50 y $100</strong>. 3 en un turno = pierdes turno; 5 = vas a UCI.</p>
+      </div>
+      <div class="special-card">
+        <span class="special-icon sp-img"><img src="assets/images/cards/pregunta.svg" alt="Pregunta ECNT"></span>
+        <h3>Pregunta ECNT <span class="special-count">×3</span></h3>
+        <p>Aciertas: ganas <strong>$120</strong>. Fallas: pagas <strong>$60</strong>. Con 3+ Estudiantes puedes eliminar 2 opciones.</p>
+      </div>
+      <div class="special-card">
+        <span class="special-icon sp-img"><img src="assets/images/specials/construccion.svg" alt="Centro de Construcción"></span>
+        <h3>Centro de Construcción</h3>
+        <p>Al caer aquí, construyes con <strong>15% de descuento</strong> por esa vez.</p>
+      </div>
+      <div class="special-card">
+        <span class="special-icon sp-img"><img src="assets/images/specials/seguro.svg" alt="Seguro Médico"></span>
+        <h3>Seguro Médico</h3>
+        <p>Cobras <strong>$100</strong> fijos del banco. No se puede comprar.</p>
+      </div>
+      <div class="special-card">
+        <span class="special-icon sp-img"><img src="assets/images/specials/uci.svg" alt="UCI"></span>
+        <h3>UCI</h3>
+        <p>Pierdes <strong>2 turnos</strong> o pagas <strong>$150</strong> para salir. Con 5+ Estudiantes, solo 1 turno.</p>
+      </div>
+      <div class="special-card">
+        <span class="special-icon sp-img"><img src="assets/images/specials/libre.svg" alt="Zona Libre"></span>
+        <h3>Zona Libre</h3>
+        <p>Descansas sin pagar nada si caes exactamente aquí.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="build-section">
+    <h2 class="section-title">Construcción y Estudiantes de Enfermería</h2>
+    <div class="build-strip">
+      <div class="build-step">
+        <span class="build-step-icon"><img src="assets/images/specials/consultorio.svg" alt="Consultorio"></span>
+        <div><strong>Consultorio</strong><span>$150 · renta ×2 · +2 Estudiantes</span></div>
+      </div>
+      <svg class="build-arrow icon"><use href="assets/images/icons/icons.svg#ic-check"/></svg>
+      <div class="build-step">
+        <span class="build-step-icon"><img src="assets/images/specials/clinica.svg" alt="Clínica"></span>
+        <div><strong>Clínica</strong><span>$400 · renta ×3 · +5 Estudiantes</span></div>
+      </div>
+      <svg class="build-arrow icon"><use href="assets/images/icons/icons.svg#ic-check"/></svg>
+      <div class="build-step">
+        <span class="build-step-icon"><img src="assets/images/specials/hospital.svg" alt="Hospital"></span>
+        <div><strong>Hospital</strong><span>$900 · renta ×5 · +12 Estudiantes</span></div>
+      </div>
+    </div>
+    <p class="build-note">Necesitas poseer <strong>todas</strong> las propiedades comprables de una categoría para construir en ella. Los Estudiantes dan −5% de renta cada 5 (máx. 40%), ayuda en preguntas (3) y −1 turno en UCI (5).</p>
+  </section>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <span class="footer-cross"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-cross"/></svg></span>
+      <span class="footer-logo">MEDICOPOLIS</span>
+      <p class="footer-tagline">Juego Educativo sobre<br>Enfermedades Crónicas No Transmisibles</p>
+    </div>
+    <div class="footer-section">
+      <h4>Contáctanos</h4>
+      <ul>
+        <li><svg class="icon"><use href="assets/images/icons/icons.svg#ic-phone"/></svg> <a href="tel:+593958605284">+593 95 860 5284</a></li>
+        <li><svg class="icon"><use href="assets/images/icons/icons.svg#ic-whatsapp"/></svg> <a href="https://wa.me/593958605284">WhatsApp</a></li>
+        <li><svg class="icon"><use href="assets/images/icons/icons.svg#ic-mail"/></svg> <a href="mailto:medicopoliscuenca@gmail.com">medicopoliscuenca@gmail.com</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h4>Ubicación</h4>
+      <ul>
+        <li><svg class="icon"><use href="assets/images/icons/icons.svg#ic-pin"/></svg> Cuenca, Azuay, Ecuador</li>
+        <li><svg class="icon"><use href="assets/images/icons/icons.svg#ic-clock"/></svg> Lun – Vie: 08:00 – 17:00</li>
+        <li><svg class="icon"><use href="assets/images/icons/icons.svg#ic-globe"/></svg> <a href="https://pagina-web-medicopolis.vercel.app/index.html">www.medicopolis.edu.ec</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h4>Síguenos</h4>
+      <ul class="footer-social">
+        <li><a href="https://www.facebook.com/andy.otg/"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-facebook"/></svg> Facebook</a></li>
+        <li><a href="https://www.instagram.com/andy.otg/"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-instagram"/></svg> Instagram</a></li>
+        <li><a href="https://www.youtube.com/@andyLaunchVision"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-youtube"/></svg> YouTube</a></li>
+        <li><a href="https://github.com/andyortega07/PaginaWebMEDICOPOLIS"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-github"/></svg> GitHub</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 MEDICOPOLIS · Todos los derechos reservados · Desarrollado en Cuenca, Ecuador</p>
+  </div>
+</footer>
+
+<script>
+function showInfoTab(name) {
+  const panels = { reglas: document.getElementById('tab-reglas'), categorias: document.getElementById('tab-categorias') };
+  const btns   = { reglas: document.getElementById('tabBtn-reglas'), categorias: document.getElementById('tabBtn-categorias') };
+  Object.keys(panels).forEach(k => {
+    panels[k].classList.toggle('hidden', k !== name);
+    btns[k].classList.toggle('active', k === name);
+  });
+  // Recuerda la última pestaña vista en este navegador
+  try { localStorage.setItem('medicopolisInfoTab', name); } catch (e) {}
+  window.scrollTo({ top: document.querySelector('.info-tabs').offsetTop - 90, behavior: 'smooth' });
+}
+// Restaurar la pestaña que el jugador vio por última vez
+(function () {
+  try {
+    const saved = localStorage.getItem('medicopolisInfoTab');
+    if (saved === 'categorias') showInfoTab('categorias');
+  } catch (e) {}
+})();
+</script>
+
+</body>
+</html>

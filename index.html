@@ -17,8 +17,7 @@
   </a>
   <ul class="nav-links" id="navLinks">
     <li><a href="index.html" class="active">Inicio</a></li>
-    <li><a href="comojugar.html">Cómo Jugar</a></li>
-    <li><a href="categorias.html">Categorías</a></li>
+    <li><a href="informacion.html">Información</a></li>
     <li><a href="tablero.html">Tablero</a></li>
   </ul>
   <button class="nav-hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-menu"/></svg></button>
@@ -27,13 +26,18 @@
 <!-- HERO -->
 <section class="hero">
   <div class="hero-bg-cross"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-cross"/></svg></div>
-  <div class="hero-content">
-    <p class="hero-eyebrow">Juego Educativo Médico</p>
-    <h1 class="hero-title">MEDICO<span>POLIS</span></h1>
-    <p class="hero-sub">Aprende sobre enfermedades crónicas no transmisibles<br>mientras juegas con familia y amigos</p>
-    <div class="hero-btns">
-      <a href="tablero.html" class="btn-primary"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-dice"/></svg> Jugar Ahora</a>
-      <a href="comojugar.html" class="btn-secondary">¿Cómo se juega?</a>
+  <div class="hero-grid">
+    <div class="hero-content">
+      <p class="hero-eyebrow">Juego Educativo Médico</p>
+      <h1 class="hero-title">MEDICO<span>POLIS</span></h1>
+      <p class="hero-sub">Aprende sobre enfermedades crónicas no transmisibles<br>mientras juegas con familia y amigos</p>
+      <div class="hero-btns">
+        <a href="tablero.html" class="btn-primary"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-dice"/></svg> Jugar Ahora</a>
+        <a href="informacion.html" class="btn-secondary">¿Cómo se juega?</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <img src="assets/images/hero/tablero-hero.svg" alt="Ilustración del tablero de MEDICOPOLIS" class="hero-board-img">
     </div>
   </div>
   <div class="hero-dice-deco">
@@ -66,39 +70,76 @@
   </div>
 </section>
 
-<!-- FEATURES -->
-<section class="features">
-  <h2 class="section-title">¿Por qué jugar MEDICOPOLIS?</h2>
-  <div class="features-grid">
-    <div class="feat-card">
-      <div class="feat-icon"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-heart"/></svg></div>
-      <h3>Cardiología</h3>
-      <p>Aprende sobre hipertensión, infarto, ACV y ejercicio cardiovascular de forma divertida.</p>
+<!-- CARRUSEL: lo más importante y llamativo, en movimiento -->
+<section class="carousel-section">
+  <h2 class="section-title">Descubre MEDICOPOLIS</h2>
+  <div class="carousel" id="homeCarousel">
+    <div class="carousel-track" id="carouselTrack">
+
+      <div class="carousel-slide slide-cardio">
+        <div class="slide-text">
+          <div class="slide-icon"><img src="assets/images/categories/cardio.svg" alt=""></div>
+          <h3>Cardiología</h3>
+          <p>Hipertensión, infarto, ACV y ejercicio cardiovascular — de forma divertida.</p>
+        </div>
+      </div>
+
+      <div class="carousel-slide slide-nutri">
+        <div class="slide-text">
+          <div class="slide-icon"><img src="assets/images/categories/nutri.svg" alt=""></div>
+          <h3>Nutrición</h3>
+          <p>Descubre cómo la alimentación impacta directamente en tu salud y bienestar.</p>
+        </div>
+      </div>
+
+      <div class="carousel-slide slide-diab">
+        <div class="slide-text">
+          <div class="slide-icon"><img src="assets/images/categories/diab.svg" alt=""></div>
+          <h3>Diabetes</h3>
+          <p>Tipos de diabetes, glucemia y cómo prevenir complicaciones.</p>
+        </div>
+      </div>
+
+      <div class="carousel-slide slide-resp">
+        <div class="slide-text">
+          <div class="slide-icon"><img src="assets/images/categories/resp.svg" alt=""></div>
+          <h3>Pulmonar</h3>
+          <p>EPOC, asma, tabaquismo y sus consecuencias en el sistema respiratorio.</p>
+        </div>
+      </div>
+
+      <div class="carousel-slide slide-onco">
+        <div class="slide-text">
+          <div class="slide-icon"><img src="assets/images/categories/onco.svg" alt=""></div>
+          <h3>Oncología</h3>
+          <p>Detección temprana del cáncer y la importancia de la prevención.</p>
+        </div>
+      </div>
+
+      <div class="carousel-slide slide-dinamica">
+        <div class="slide-text">
+          <div class="slide-icon"><img src="assets/images/categories/dinamica.svg" alt=""></div>
+          <h3>Dinámica de Juego</h3>
+          <p>Inspirada en el Monopolio: compra, arrienda y construye tu red de clínicas — de 2 a 6 jugadores.</p>
+        </div>
+      </div>
+
     </div>
-    <div class="feat-card">
-      <div class="feat-icon"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-leaf"/></svg></div>
-      <h3>Nutrición</h3>
-      <p>Descubre cómo la alimentación impacta directamente en tu salud y bienestar.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-drop"/></svg></div>
-      <h3>Diabetes</h3>
-      <p>Conoce los tipos de diabetes, la glucemia y cómo prevenir complicaciones.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-lungs"/></svg></div>
-      <h3>Pulmonar</h3>
-      <p>Entiende el EPOC, asma, tabaquismo y sus consecuencias en el sistema respiratorio.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-micro"/></svg></div>
-      <h3>Oncología</h3>
-      <p>Concientiza sobre la detección temprana del cáncer y la importancia de la prevención.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon"><svg class="icon"><use href="assets/images/icons/icons.svg#ic-dice"/></svg></div>
-      <h3>Dinámica</h3>
-      <p>Mecánica inspirada en el Monopolio: compra, arrienda y construye tu red de clínicas.</p>
+
+    <button class="carousel-arrow prev" onclick="carouselMove(-1)" aria-label="Anterior">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+    <button class="carousel-arrow next" onclick="carouselMove(1)" aria-label="Siguiente">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+    </button>
+
+    <div class="carousel-dots" id="carouselDots">
+      <button class="carousel-dot active" onclick="carouselGoTo(0)" aria-label="Diapositiva 1"></button>
+      <button class="carousel-dot" onclick="carouselGoTo(1)" aria-label="Diapositiva 2"></button>
+      <button class="carousel-dot" onclick="carouselGoTo(2)" aria-label="Diapositiva 3"></button>
+      <button class="carousel-dot" onclick="carouselGoTo(3)" aria-label="Diapositiva 4"></button>
+      <button class="carousel-dot" onclick="carouselGoTo(4)" aria-label="Diapositiva 5"></button>
+      <button class="carousel-dot" onclick="carouselGoTo(5)" aria-label="Diapositiva 6"></button>
     </div>
   </div>
 </section>
@@ -132,7 +173,7 @@
       <ul>
         <li><svg class="icon"><use href="assets/images/icons/icons.svg#ic-pin"/></svg> Cuenca, Azuay, Ecuador</li>
         <li><svg class="icon"><use href="assets/images/icons/icons.svg#ic-clock"/></svg> Lun – Vie: 08:00 – 17:00</li>
-        <li><svg class="icon"><use href="assets/images/icons/icons.svg#ic-globe"/></svg> <a href="#">www.medicopolis.edu.ec</a></li>
+        <li><svg class="icon"><use href="assets/images/icons/icons.svg#ic-globe"/></svg> <a href="https://pagina-web-medicopolis.vercel.app/index.html">www.medicopolis.edu.ec</a></li>
       </ul>
     </div>
     <div class="footer-section">
@@ -146,9 +187,70 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2026 MEDICOPOLIS · Todos los derechos reservados · Desarrollado en Cuenca,Ecuador</p>
+    <p>© 2026 MEDICOPOLIS · Todos los derechos reservados · Desarrollado en Cuenca, Ecuador</p>
   </div>
 </footer>
+
+<script>
+/* ── CONTADORES ANIMADOS DE ESTADÍSTICAS ── */
+(function () {
+  const nums = document.querySelectorAll('.stat-num');
+  nums.forEach(el => {
+    const target = parseInt(el.textContent, 10);
+    if (isNaN(target)) return; // el símbolo ∞ se deja igual
+    el.dataset.target = target;
+    el.textContent = '0';
+  });
+  function run(el) {
+    const target = +el.dataset.target, dur = 900, t0 = performance.now();
+    (function step(now) {
+      const p = Math.min((now - t0) / dur, 1);
+      el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
+      if (p < 1) requestAnimationFrame(step);
+    })(t0);
+  }
+  const bar = document.querySelector('.stats-bar');
+  if ('IntersectionObserver' in window && bar) {
+    const io = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) { nums.forEach(el => el.dataset.target && run(el)); io.disconnect(); }
+    }, { threshold: 0.3 });
+    io.observe(bar);
+  } else {
+    nums.forEach(el => el.dataset.target && run(el));
+  }
+})();
+</script>
+
+<script>
+/* ── CARRUSEL DE INICIO ── */
+(function () {
+  const track = document.getElementById('carouselTrack');
+  const dots  = document.querySelectorAll('.carousel-dot');
+  const wrap  = document.getElementById('homeCarousel');
+  const total = dots.length;
+  let index = 0;
+  let timer;
+
+  window.carouselGoTo = function (i) {
+    index = (i + total) % total;
+    track.style.transform = `translateX(-${index * 100}%)`;
+    dots.forEach((d, idx) => d.classList.toggle('active', idx === index));
+  };
+  window.carouselMove = function (delta) {
+    carouselGoTo(index + delta);
+    restart();
+  };
+  function tick() { carouselGoTo(index + 1); }
+  function restart() { clearInterval(timer); timer = setInterval(tick, 4200); }
+
+  wrap.addEventListener('mouseenter', () => clearInterval(timer));
+  wrap.addEventListener('mouseleave', restart);
+  wrap.addEventListener('touchstart', () => clearInterval(timer), { passive: true });
+  wrap.addEventListener('touchend', restart);
+
+  restart();
+})();
+</script>
 
 </body>
 </html>
